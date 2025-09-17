@@ -22,7 +22,7 @@ namespace ADO_NET
             //Select("SELECT * FROM Movies");
             Select("*", "Directors");
             Select("movie_name,realise_date,first_name+last_name AS Режиссер", "Movies,Directors", "director=director_id");
-           // Insert();
+            Insert();
             SelectPQ();
 #if SCALAR_CHECK
             connection.Open();
