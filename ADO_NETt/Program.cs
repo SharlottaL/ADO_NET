@@ -21,9 +21,8 @@ namespace ADO_NET
 		static void Main(string[] args)
         {
 #if ALL_IN_MAIN_CLASS
-			//0) Достаем строку подключения из App.config:
+			
 			connectionString = ConfigurationManager.ConnectionStrings["Movies"].ConnectionString;
-			//1) Создаем подключение к Базе данных на Сервере:
 			Console.WriteLine(connectionString);
 			connection = new SqlConnection();
 			connection.ConnectionString = connectionString;
@@ -41,7 +40,7 @@ namespace ADO_NET
 			Console.WriteLine($"Количество режиссереов:\t{command.ExecuteScalar()}");
 
 			command.CommandText = "SELECT COUNT(*) FROM Movies";
-			Console.WriteLine($"Количество киношек:\t{command.ExecuteScalar()}");
+			Console.WriteLine($"Количество фильмов:\t{command.ExecuteScalar()}");
 
 			command.CommandText = "SELECT last_name FROM Directors WHERE first_name=N'James'";
 			Console.WriteLine(command.ExecuteScalar());
