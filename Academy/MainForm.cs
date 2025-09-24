@@ -14,10 +14,11 @@ namespace Academy
 
         public partial class MainForm : Form
         {
-            string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             SqlConnection connection;
         Dictionary<string, int> d_groupsDirection;
-            public MainForm()
+    
+        public MainForm()
             {
                 InitializeComponent();
                 connection = new SqlConnection(connectionString);
@@ -28,11 +29,15 @@ namespace Academy
                 (
                 "group_id, group_name, direction", "Groups, Directions", "direction = direction_id"
                 );
+            dataGridViewStudents.DataSource = Select("*", "Students");
+        
+
             //LoadDisciplines();
+            //LoadStudents();
             d_groupsDirection  = LoadDataToComboBox("*", "Directions");
             comboBoxGroupsDirections.Items.AddRange(d_groupsDirection.Keys.ToArray());
             comboBoxGroupsDirections.SelectedIndex = 0;
-            }
+        }
         DataTable Select(string fields, string tables, string condition = "")
         {
             DataTable table = new DataTable();
@@ -134,8 +139,7 @@ namespace Academy
             connection.Close();
             dataGridViewDirections.DataSource = table;
         }
-
-       Dictionary<string, int> LoadDataToComboBox(string fields, string tables)
+        Dictionary<string, int> LoadDataToComboBox(string fields, string tables)
         {
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
             dictionary.Add("Все", 0);
@@ -165,6 +169,8 @@ namespace Academy
                  condition
               );
         }
+
+      
     }
     }
 
