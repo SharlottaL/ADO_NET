@@ -52,6 +52,18 @@
     <Compile Include="AddGroups.Designer.cs">
       <DependentUpon>AddGroups.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddStudents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddStudents.Designer.cs">
+      <DependentUpon>AddStudents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddTeachers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddTeachers.Designer.cs">
+      <DependentUpon>AddTeachers.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +76,12 @@
     <Compile Include="Week.cs" />
     <EmbeddedResource Include="AddGroups.resx">
       <DependentUpon>AddGroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddStudents.resx">
+      <DependentUpon>AddStudents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddTeachers.resx">
+      <DependentUpon>AddTeachers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

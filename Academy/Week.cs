@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Academy
 {
@@ -19,10 +20,22 @@ namespace Academy
             string learningDays = "";
             for(int i =0; i < DayNames.Length; i++)
             {
-                learningDays += (days&(1<<i)) == 0 ? "" : $"{DayNames[i]}, ";
+                learningDays += (days & (1 << i )) == 0 ? "" : $"{DayNames[i]}, ";
                 //if ((days & (1 << i)) != 0) 
             }
             return learningDays;
+        }
+
+        public static byte FromToStringLearningDays(CheckedListBox checkedListBox)
+        {
+            byte learning_days = 0;
+            for (int i = 0; i < checkedListBox.Items.Count; i++)
+            {
+                if (checkedListBox.GetItemChecked(i))
+                    learning_days += (byte)(1 << i);
+
+            }
+            return learning_days;
         }
     }
 }

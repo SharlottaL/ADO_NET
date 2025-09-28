@@ -215,6 +215,18 @@ namespace Academy
             AddGroups addGroups = new AddGroups();
             addGroups.Show();
         }
+
+        private void buttonAddStudent_Click(object sender, EventArgs e)
+        {
+            AddStudents addStudents = new AddStudents();
+            addStudents.Show();
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            AddTeachers addTeachers = new AddTeachers();
+            addTeachers.Show();
+        }
     }
  }
 
