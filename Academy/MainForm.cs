@@ -17,9 +17,8 @@ namespace Academy
         {
             string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             SqlConnection connection;
-        Dictionary<string, int> d_groupsDirection;
-        Dictionary<string, int> d_studentsGroups;
-        Dictionary<string, int> d_studentsDirection;
+        Dictionary<string, int> d_groupDirection;
+        Dictionary<string, int> d_studentsGroup;
 
 
         Query[] queries = new Query[]
@@ -61,18 +60,15 @@ namespace Academy
             Console.WriteLine(tabControl.TabCount);
             connection = new SqlConnection(connectionString);
 
-            d_groupsDirection = LoadDataToComboBox("*", "Directions");
-            comboBoxGroupsDirections.Items.AddRange(d_groupsDirection.Keys.ToArray());
-            comboBoxGroupsDirections.SelectedIndex = 0;
-            tabControl.SelectedIndex = 1;
-
-            d_studentsGroups = LoadDataToComboBox("*", "Groups");
-            comboBoxStudentsGroups.Items.AddRange(d_studentsGroups.Keys.ToArray());
+            d_groupDirection = LoadDataToDictionary("*", "Directions");
+            d_studentsGroup = LoadDataToDictionary("*", "Groups");
+            comboBoxGroupsDirections.Items.AddRange(d_groupDirection.Keys.ToArray());
+            comboBoxStudentsDirections.Items.AddRange(d_groupDirection.Keys.ToArray());
+            comboBoxStudentsGroups.Items.AddRange(d_studentsGroup.Keys.ToArray());
+            comboBoxStudentsDirections.SelectedIndex = comboBoxGroupsDirections.SelectedIndex = 0;
             comboBoxStudentsGroups.SelectedIndex = 0;
 
-            d_studentsDirection = LoadDataToComboBox("*", "Directions");
-            comboBoxStudentsDirections.Items.AddRange(d_studentsDirection.Keys.ToArray());
-            comboBoxStudentsDirections.SelectedIndex = 0;
+            tabControl.SelectedIndex = 0;
 
             for (int i =0; i < tabControl.TabCount; i++)
             {
@@ -130,43 +126,38 @@ namespace Academy
                     = new Week(Convert.ToByte(dataGridViewGroups.Rows[i].Cells["learning_days"].Value));
             }
         }
-        Dictionary<string, int> LoadDataToComboBox(string fields, string tables)
+        Dictionary<string, int> LoadDataToDictionary(string fields, string tables, string condition = "")
         {
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
             dictionary.Add("Все", 0);
             string cmd = $"SELECT {fields} FROM {tables}";
+            if (!string.IsNullOrWhiteSpace(condition))
+                cmd += $" WHERE {condition}";
+
             SqlCommand command = new SqlCommand(cmd, connection);
             connection.Open();
             SqlDataReader reader = command.ExecuteReader();
-            while(reader.Read())
+            while (reader.Read())
             {
-                //comboBoxGroupsDirections.Items.Add(reader[1]);
+                //comboBoxGroupsDirection.Items.Add(reader[1]);
                 dictionary.Add(reader[1].ToString(), Convert.ToInt32(reader[0]));
-                    }
+            }
             reader.Close();
             connection.Close();
             return dictionary;
         }
-      
+
         private void comboBoxGroupsDirections_SelectedIndexChanged(object sender, EventArgs e)
         {
             string condition = "direction = direction_id";
             if (comboBoxGroupsDirections.SelectedItem.ToString() != "Все")
-                condition += $" AND direction = {d_groupsDirection[comboBoxGroupsDirections.SelectedItem.ToString()]}";
+                condition += $" AND direction = {d_groupDirection[comboBoxGroupsDirections.SelectedItem.ToString()]}";
             dataGridViewGroups.DataSource = Select
                 (
                 "group_id AS N'ID', group_name AS N'Название группы', direction_name AS N'Направление'",
                 "Groups, Directions",
                  condition
               );
-            //" +
-            //    "CASE WHEN learning_days & 1 = 1 THEN 'ПН' ELSE '' END + ' ' + " +
-            //    "CASE WHEN learning_days & 2 = 2 THEN 'Вт' ELSE '' END + ' ' + " +
-            //    "CASE WHEN learning_days & 4 = 4 THEN 'Ср' ELSE '' END + ' ' + " +
-            //    "CASE WHEN learning_days & 8 = 8 THEN 'Чт' ELSE '' END + ' ' + " +
-            //    "CASE WHEN learning_days & 16 = 16 THEN 'Пт' ELSE '' END + ' ' + " +
-            //    "CASE WHEN learning_days & 32 = 32 THEN 'Сб' ELSE '' END + ' ' + " +
-            //    "CASE WHEN learning_days & 64 = 64 THEN 'Вс' ELSE '' END AS N'Учебные дни', " + "
         }
         [DllImport("kernel32.dll")]
         static extern void AllocConsole();
@@ -179,31 +170,35 @@ namespace Academy
         {
             toolStripStatusLabel1.Text = $"{statusBarMassages[tabControl.SelectedIndex]}: {(sender as DataGridView).RowCount - 1}";
         }
-        private void comboBoxStudentsGroups_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxStudentsDirection_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string condition = "[group] = group_id";
-            if (comboBoxStudentsGroups.SelectedItem.ToString() != "Все")
-                condition += $" AND [group] = {d_studentsGroups[comboBoxStudentsGroups.SelectedItem.ToString()]}";
+            string condition = comboBoxStudentsDirections.SelectedItem.ToString() == "Все" ? "" :
+                $" direction={d_groupDirection[(sender as ComboBox).SelectedItem.ToString()]}";
+            comboBoxStudentsGroups.Items.Clear();
+            comboBoxStudentsGroups.Items.AddRange(LoadDataToDictionary("*", "Groups", condition).Keys.ToArray());
             dataGridViewStudents.DataSource = Select
                 (
-                "stud_id, first_name, last_name, group_name",
-                "Students, Groups",
-                 condition
-              );
+                    queries[0].Fields,
+                    queries[0].Tables,
+                    queries[0].Condition + (string.IsNullOrEmpty(condition) ? "" : $" AND {condition}")
+                );
         }
-        private void comboBoxStudentsDirections_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void comboBoxStudentsGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string condition = "[group] = group_id AND direction = direction_id";
-            if (comboBoxStudentsGroups.SelectedItem.ToString() != "Все")
-                condition += $" AND [group] = {d_studentsGroups[comboBoxStudentsGroups.SelectedItem.ToString()]}";
-            if (comboBoxStudentsDirections.SelectedItem.ToString() != "Все")
-                condition += $" AND direction = {d_studentsDirection[comboBoxStudentsDirections.SelectedItem.ToString()]}";
+            string condition_group =
+                comboBoxStudentsGroups.SelectedItem.ToString() == "Все" ? "" :
+                $"[group]={d_studentsGroup[comboBoxStudentsGroups.SelectedItem.ToString()]}";
+            string condition_direction = comboBoxStudentsDirections.SelectedItem.ToString() == "Все" ? "" :
+                $" direction={d_groupDirection[comboBoxStudentsDirections.SelectedItem.ToString()]}";
             dataGridViewStudents.DataSource = Select
                 (
-                "stud_id, first_name, last_name, group_name, direction_name",
-                "Students, Groups, Directions",
-                 condition
-              );
+                    queries[0].Fields,
+                    queries[0].Tables,
+                    queries[0].Condition
+                    + (string.IsNullOrWhiteSpace(condition_group) ? "" : $" AND {condition_group}")
+                    + (string.IsNullOrWhiteSpace(condition_direction) ? "" : $" AND {condition_direction}")
+                );
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

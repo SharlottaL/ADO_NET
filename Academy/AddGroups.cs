@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Academy
 {
@@ -78,32 +79,52 @@ namespace Academy
             return Convert.ToInt32(result);
 
         }
+        //public string checkedListBox(CheckedListBox checkedListBox)
+        //{
+        //    string element = "";
+        //    foreach (var i in checkedListBoxLearningDays.CheckedItems)
+        //    {
+        //        element += i.ToString() + ",";
+        //    }
 
+            
+        //    return element;
+        //}
         private void button1_Click(object sender, EventArgs e)
         {
             string days = "";
             int nextId = GetNextGroupId("Groups");
-            foreach (var item in checkedListBoxLearningDays.CheckedItems)
+            //checkedListBox(checkedListBoxLearningDays);
+            //if (string.IsNullOrWhiteSpace(checkedListBox(checkedListBoxLearningDays)))
+            //{
+            //    MessageBox.Show("Вы не выбрали дни недели для занятий!");
+            //    return;
+            //}
+            //checkedListBox(checkedListBoxTime);
+            //if (string.IsNullOrWhiteSpace(checkedListBox(checkedListBoxTime)))
+            //{
+            //    MessageBox.Show("Вы не выбрали время начала занятий!");
+            //    return;
+            //}
+            foreach (var i in checkedListBoxLearningDays.CheckedItems)
             {
-                days += item.ToString() + ",";
+                days += i.ToString() + ",";
             }
-            days = days.TrimEnd(',');
 
-            if (string.IsNullOrEmpty(days))
+            if (string.IsNullOrWhiteSpace(days))
             {
                 MessageBox.Show("Выберите дни обучения!");
                 return;
             }
             string time = "";
-            foreach (var item in checkedListBoxTime.CheckedItems)
+            foreach (var i in checkedListBoxTime.CheckedItems)
             {
-                time += item.ToString() + ",";
+                time += i.ToString() + ",";
             }
-            time = time.TrimEnd(','); 
 
-            if (string.IsNullOrEmpty(time))
+            if (string.IsNullOrWhiteSpace(time))
             {
-                MessageBox.Show("Выберите дни обучения!");
+                MessageBox.Show("Выберите время начала занятий!");
                 return;
             }
 

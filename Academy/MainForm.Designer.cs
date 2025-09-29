@@ -130,7 +130,7 @@
             this.comboBoxStudentsDirections.Name = "comboBoxStudentsDirections";
             this.comboBoxStudentsDirections.Size = new System.Drawing.Size(218, 21);
             this.comboBoxStudentsDirections.TabIndex = 4;
-            this.comboBoxStudentsDirections.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudentsDirections_SelectedIndexChanged);
+           this.comboBoxStudentsDirections.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudentsDirection_SelectedIndexChanged);
             // 
             // labelDirections
             // 
@@ -158,7 +158,7 @@
             this.comboBoxStudentsGroups.Name = "comboBoxStudentsGroups";
             this.comboBoxStudentsGroups.Size = new System.Drawing.Size(132, 21);
             this.comboBoxStudentsGroups.TabIndex = 5;
-            this.comboBoxStudentsGroups.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudentsGroups_SelectedIndexChanged);
+            this.comboBoxStudentsGroups.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudentsGroup_SelectedIndexChanged);
             // 
             // dataGridViewStudents
             // 
