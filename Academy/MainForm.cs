@@ -15,7 +15,7 @@ namespace Academy
 
         public partial class MainForm : Form
         {
-            string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string connectionString = "";
             SqlConnection connection;
         Dictionary<string, int> d_groupDirection;
         Dictionary<string, int> d_studentsGroup;

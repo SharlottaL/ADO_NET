@@ -13,7 +13,7 @@ namespace Academy
 {
     public partial class AddStudents : Form
     {
-        string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        string connectionString = "";
         SqlConnection connection;
         Dictionary<string, int> d_groups;
         public AddStudents()
@@ -58,8 +58,8 @@ namespace Academy
             if (textBoxMiddleName.Text == "")
                 MessageBox.Show("Вы не ввели отчество!");
         }
-        public bool Add(string table, string fields, object values)
 
+        public bool Add(string table, string fields, object values)
         {
             string cmd = $"INSERT INTO {table} ({fields}) VALUES ({values})";
             SqlCommand command = new SqlCommand(cmd, connection);
