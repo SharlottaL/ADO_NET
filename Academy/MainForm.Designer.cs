@@ -49,8 +49,10 @@
             this.tabPageDisciplines = new System.Windows.Forms.TabPage();
             this.dataGridViewDisciplines = new System.Windows.Forms.DataGridView();
             this.tabPageTeachers = new System.Windows.Forms.TabPage();
-            this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
             this.buttonAdd = new System.Windows.Forms.Button();
+            this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
+            this.comboBoxDirections = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageStudents.SuspendLayout();
@@ -130,7 +132,7 @@
             this.comboBoxStudentsDirections.Name = "comboBoxStudentsDirections";
             this.comboBoxStudentsDirections.Size = new System.Drawing.Size(218, 21);
             this.comboBoxStudentsDirections.TabIndex = 4;
-           this.comboBoxStudentsDirections.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudentsDirection_SelectedIndexChanged);
+            this.comboBoxStudentsDirections.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudentsDirection_SelectedIndexChanged);
             // 
             // labelDirections
             // 
@@ -260,6 +262,8 @@
             // 
             // tabPageDisciplines
             // 
+            this.tabPageDisciplines.Controls.Add(this.label1);
+            this.tabPageDisciplines.Controls.Add(this.comboBoxDirections);
             this.tabPageDisciplines.Controls.Add(this.dataGridViewDisciplines);
             this.tabPageDisciplines.Location = new System.Drawing.Point(4, 22);
             this.tabPageDisciplines.Name = "tabPageDisciplines";
@@ -292,6 +296,16 @@
             this.tabPageTeachers.Text = "Teachers";
             this.tabPageTeachers.UseVisualStyleBackColor = true;
             // 
+            // buttonAdd
+            // 
+            this.buttonAdd.Location = new System.Drawing.Point(709, 6);
+            this.buttonAdd.Name = "buttonAdd";
+            this.buttonAdd.Size = new System.Drawing.Size(75, 23);
+            this.buttonAdd.TabIndex = 1;
+            this.buttonAdd.Text = "Add";
+            this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            // 
             // dataGridViewTeachers
             // 
             this.dataGridViewTeachers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -303,15 +317,23 @@
             this.dataGridViewTeachers.Size = new System.Drawing.Size(789, 356);
             this.dataGridViewTeachers.TabIndex = 0;
             // 
-            // buttonAdd
+            // comboBoxDirections
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(709, 6);
-            this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(75, 23);
-            this.buttonAdd.TabIndex = 1;
-            this.buttonAdd.Text = "Add";
-            this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            this.comboBoxDirections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxDirections.FormattingEnabled = true;
+            this.comboBoxDirections.Location = new System.Drawing.Point(447, 13);
+            this.comboBoxDirections.Name = "comboBoxDirections";
+            this.comboBoxDirections.Size = new System.Drawing.Size(273, 21);
+            this.comboBoxDirections.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(320, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(121, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Напрвление обучения:";
             // 
             // MainForm
             // 
@@ -335,6 +357,7 @@
             this.tabPageDirections.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDirections)).EndInit();
             this.tabPageDisciplines.ResumeLayout(false);
+            this.tabPageDisciplines.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDisciplines)).EndInit();
             this.tabPageTeachers.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTeachers)).EndInit();
@@ -368,6 +391,8 @@
         private System.Windows.Forms.Button buttonAddGroups;
         private System.Windows.Forms.Button buttonAddStudent;
         private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBoxDirections;
     }
 }
 
