@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl = new System.Windows.Forms.TabControl();
@@ -47,12 +49,14 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.dataGridViewDirections = new System.Windows.Forms.DataGridView();
             this.tabPageDisciplines = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBoxDirections = new System.Windows.Forms.ComboBox();
             this.dataGridViewDisciplines = new System.Windows.Forms.DataGridView();
             this.tabPageTeachers = new System.Windows.Forms.TabPage();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
-            this.comboBoxDirections = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.photoColumn = new System.Windows.Forms.DataGridViewImageColumn();
             this.statusStrip.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageStudents.SuspendLayout();
@@ -168,10 +172,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewStudents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.photoColumn});
             this.dataGridViewStudents.Location = new System.Drawing.Point(3, 29);
             this.dataGridViewStudents.Name = "dataGridViewStudents";
             this.dataGridViewStudents.Size = new System.Drawing.Size(786, 370);
             this.dataGridViewStudents.TabIndex = 0;
+       //     this.dataGridViewStudents.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewStudents_CellFormatting);
             // 
             // tabPageGroups
             // 
@@ -189,6 +196,9 @@
             // 
             // buttonAddGroups
             // 
+            this.buttonAddGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonAddGroups.Location = new System.Drawing.Point(655, 373);
             this.buttonAddGroups.Name = "buttonAddGroups";
             this.buttonAddGroups.Size = new System.Drawing.Size(120, 23);
@@ -273,6 +283,24 @@
             this.tabPageDisciplines.Text = "Disciplines";
             this.tabPageDisciplines.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(320, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(121, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Напрвление обучения:";
+            // 
+            // comboBoxDirections
+            // 
+            this.comboBoxDirections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxDirections.FormattingEnabled = true;
+            this.comboBoxDirections.Location = new System.Drawing.Point(447, 13);
+            this.comboBoxDirections.Name = "comboBoxDirections";
+            this.comboBoxDirections.Size = new System.Drawing.Size(273, 21);
+            this.comboBoxDirections.TabIndex = 3;
+            // 
             // dataGridViewDisciplines
             // 
             this.dataGridViewDisciplines.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -317,23 +345,19 @@
             this.dataGridViewTeachers.Size = new System.Drawing.Size(789, 356);
             this.dataGridViewTeachers.TabIndex = 0;
             // 
-            // comboBoxDirections
+            // imageList1
             // 
-            this.comboBoxDirections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxDirections.FormattingEnabled = true;
-            this.comboBoxDirections.Location = new System.Drawing.Point(447, 13);
-            this.comboBoxDirections.Name = "comboBoxDirections";
-            this.comboBoxDirections.Size = new System.Drawing.Size(273, 21);
-            this.comboBoxDirections.TabIndex = 3;
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // label1
+            // photoColumn
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(320, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Напрвление обучения:";
+            this.photoColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.photoColumn.DataPropertyName = "photo";
+            this.photoColumn.HeaderText = "Фото";
+            this.photoColumn.Image = ((System.Drawing.Image)(resources.GetObject("photoColumn.Image")));
+            this.photoColumn.Name = "photoColumn";
             // 
             // MainForm
             // 
@@ -393,6 +417,8 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBoxDirections;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.DataGridViewImageColumn photoColumn;
     }
 }
 

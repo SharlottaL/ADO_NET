@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
+using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-using System.Runtime.InteropServices;
-using System.Drawing.Printing;
-using System.Configuration;
 
 namespace Academy
 {
@@ -64,7 +66,6 @@ namespace Academy
             connection = new SqlConnection(connectionString);
 
             DirectionsRelatedData = new System.Data.DataSet(nameof(DirectionsRelatedData));
-
             const string dsTableDirections = "Directions";
             const string dstDirections_col_direction_id = "direction_id";
             const string dstDirections_col_direction_name = "direction_name";
@@ -118,6 +119,7 @@ namespace Academy
                     .RowsAdded 
                     += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
             }
+         
         }
         void LoadTab(int i)
         {
@@ -127,8 +129,7 @@ namespace Academy
             //  toolStripStatusLabel1.Text = $"{statusBarMassages[i]}: {dataGridView.RowCount - 1}";
             if (i == 1) ConvertLearningDays();
         }
-        
-            void FillStatusBar(int i)
+        void FillStatusBar(int i)
         {
 
         }

@@ -40,6 +40,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.buttonExit = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
+            this.openFileDialogStudents = new System.Windows.Forms.OpenFileDialog();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBoxName
@@ -128,7 +131,7 @@
             // 
             // buttonExit
             // 
-            this.buttonExit.Location = new System.Drawing.Point(244, 297);
+            this.buttonExit.Location = new System.Drawing.Point(244, 310);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(75, 23);
             this.buttonExit.TabIndex = 10;
@@ -138,7 +141,7 @@
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(156, 297);
+            this.buttonAdd.Location = new System.Drawing.Point(156, 310);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonAdd.TabIndex = 11;
@@ -146,11 +149,29 @@
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.button2_Click);
             // 
+            // openFileDialogStudents
+            // 
+            this.openFileDialogStudents.FileName = "openFileDialogStudents";
+            this.openFileDialogStudents.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;";
+            this.openFileDialogStudents.Title = " Выберите фото студента";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Location = new System.Drawing.Point(234, 168);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(78, 81);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
+            // 
             // AddStudents
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(331, 332);
+            this.ClientSize = new System.Drawing.Size(335, 373);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.label5);
@@ -165,6 +186,7 @@
             this.Controls.Add(this.textBoxName);
             this.Name = "AddStudents";
             this.Text = "AddStudents";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,5 +206,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.OpenFileDialog openFileDialogStudents;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

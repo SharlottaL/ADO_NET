@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,6 +69,18 @@ namespace Academy
             connection.Close();
             return true;
         }
+        private byte[] ImageToByteArray(Image image)
+        {
+            if (image == null) return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+              
+                image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return ms.ToArray();
+            }
+        }
+        
         private void button2_Click(object sender, EventArgs e)
         {
             string selectedGroupName = comboBoxGroups.Text;
@@ -78,7 +91,12 @@ namespace Academy
                 MessageBox.Show("Выберите группу!");
                 return;
             }
-            bool add = Add("Students", "last_name, first_name, middle_name, [group], birth_date", $"'{textBoxName.Text}', '{textBoxLastName.Text}', '{textBoxMiddleName.Text}', '{group}', '{birthDate}'");
+            byte[] photoBytes = null;
+            if (pictureBox1.Image != null)
+            {
+                photoBytes = ImageToByteArray(pictureBox1.Image);
+            }
+            bool add = Add("Students", "last_name, first_name, middle_name, [group], birth_date, photo", $"'{textBoxName.Text}', '{textBoxLastName.Text}', '{textBoxMiddleName.Text}', '{group}', '{birthDate}', '{photoBytes}'");
 
             if (add)
             {
@@ -93,5 +111,24 @@ namespace Academy
         {
             this.Close();
         }
+
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            if (openFileDialogStudents.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // Загружаем выбранное изображение в PictureBox
+                    string selectedFile = openFileDialogStudents.FileName;
+                    pictureBox1.Image = Image.FromFile(selectedFile);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка загрузки изображения: {ex.Message}");
+                }
+            }
+        }
+
+       
     }
 }
