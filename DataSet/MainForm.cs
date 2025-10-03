@@ -219,15 +219,24 @@ namespace DataSet
 
         private void comboBoxDisciplinesForDirection_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DataRow[] ddr = DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"].Select($"direction={comboBoxDisciplinesForDirection.SelectedValue}");
-            DataTable dtDicsiplinesForDirections = DisciplinesDirectionsRelation.Tables["Disciplines"].Clone();
-            foreach(DataRow row in ddr)
-            {
-                DataRow discipline = DisciplinesDirectionsRelation.Tables["Disciplines"].Rows.Find(row["discipline"]);
-                dtDicsiplinesForDirections.ImportRow(discipline);
-            }
-            dataGridViewDisciplines.DataSource = dtDicsiplinesForDirections;
+            //DataRow[] ddr = DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"].Select($"direction={comboBoxDisciplinesForDirection.SelectedValue}");
+            //DataTable dtDicsiplinesForDirections = DisciplinesDirectionsRelation.Tables["Disciplines"].Clone();
+            //foreach(DataRow row in ddr)
+            //{
+            //    DataRow discipline = DisciplinesDirectionsRelation.Tables["Disciplines"].Rows.Find(row["discipline"]);
+            //    dtDicsiplinesForDirections.ImportRow(discipline);
+            //}
+            //dataGridViewDisciplines.DataSource = dtDicsiplinesForDirections;
 
+            //DataRow[] ddr = DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"]
+            //    .Select($"direction={comboBoxDisciplinesForDirection.SelectedValue}");
+            //DataTable dtDisciplines = DisciplinesDirectionsRelation.Tables["Disciplines"].Clone();
+
+            //object[] disciplines_ids = ddr.Select(row => row["discipline"]).Distinct().ToArray();
+            //string filter = $"discipline_id IN ({string.Join(",", disciplines_ids)})";
+            //dataGridViewDisciplines.DataSource = DisciplinesDirectionsRelation.Tables["Disciplines"].Select(filter).CopyToDataTable();
+            //var disciplines = from discipline in DisciplinesDirectionsRelation.Tables["Disciplines"] select ("")
+            //Console.WriteLine(disciplines.GetType());
         }
     }
 }

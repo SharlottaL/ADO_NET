@@ -13,13 +13,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Configuration;
 namespace Academy
 {
 
-        public partial class MainForm : Form
+        public partial class MainForm : System.Windows.Forms.Form
         {
-            string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+          string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             SqlConnection connection;
         System.Data.DataSet DirectionsRelatedData = null;
         Dictionary<string, int> d_groupDirection;
@@ -62,6 +62,7 @@ namespace Academy
             {
             InitializeComponent();
             AllocConsole();
+            connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
             Console.WriteLine(tabControl.TabCount);
             connection = new SqlConnection(connectionString);
 
@@ -161,6 +162,14 @@ namespace Academy
             return table;
         }
 
+        void Insert(string table, string fields, string values)
+        {
+            string cmd = $"INSERT {table}({fields}) VALUES ({values})";
+            SqlCommand command = new SqlCommand(cmd, connection);
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
         void ConvertLearningDays()
         {
             for(int i = 0; i < dataGridViewGroups.RowCount;i++)
@@ -256,8 +265,16 @@ namespace Academy
 
         private void buttonAddStudent_Click(object sender, EventArgs e)
         {
-            AddStudents addStudents = new AddStudents();
-            addStudents.Show();
+            StudentsForm student = new StudentsForm();
+            DialogResult result = student.ShowDialog();
+            if (result == DialogResult.OK)
+            { 
+                Insert(
+                    "Students",
+                    "last_name,first_name,middle_name,birth_date,email,phone,[group]",
+                    student.Student.ToString()
+                    );
+            }
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)

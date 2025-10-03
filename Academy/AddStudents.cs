@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Academy
 {
-    public partial class AddStudents : Form
+    public partial class AddStudents : System.Windows.Forms.Form
     {
         string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         SqlConnection connection;

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl = new System.Windows.Forms.TabControl();
@@ -39,7 +38,6 @@
             this.labelDirections = new System.Windows.Forms.Label();
             this.labelGroups = new System.Windows.Forms.Label();
             this.comboBoxStudentsGroups = new System.Windows.Forms.ComboBox();
-            this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
             this.tabPageGroups = new System.Windows.Forms.TabPage();
             this.buttonAddGroups = new System.Windows.Forms.Button();
             this.comboBoxGroupsDirections = new System.Windows.Forms.ComboBox();
@@ -56,11 +54,10 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.photoColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
             this.statusStrip.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageStudents.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
             this.tabPageGroups.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGroups)).BeginInit();
             this.tabPageDirections.SuspendLayout();
@@ -69,6 +66,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDisciplines)).BeginInit();
             this.tabPageTeachers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTeachers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -165,20 +163,6 @@
             this.comboBoxStudentsGroups.Size = new System.Drawing.Size(132, 21);
             this.comboBoxStudentsGroups.TabIndex = 5;
             this.comboBoxStudentsGroups.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudentsGroup_SelectedIndexChanged);
-            // 
-            // dataGridViewStudents
-            // 
-            this.dataGridViewStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewStudents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.photoColumn});
-            this.dataGridViewStudents.Location = new System.Drawing.Point(3, 29);
-            this.dataGridViewStudents.Name = "dataGridViewStudents";
-            this.dataGridViewStudents.Size = new System.Drawing.Size(786, 370);
-            this.dataGridViewStudents.TabIndex = 0;
-       //     this.dataGridViewStudents.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewStudents_CellFormatting);
             // 
             // tabPageGroups
             // 
@@ -351,13 +335,16 @@
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // photoColumn
+            // dataGridViewStudents
             // 
-            this.photoColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.photoColumn.DataPropertyName = "photo";
-            this.photoColumn.HeaderText = "Фото";
-            this.photoColumn.Image = ((System.Drawing.Image)(resources.GetObject("photoColumn.Image")));
-            this.photoColumn.Name = "photoColumn";
+            this.dataGridViewStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewStudents.Location = new System.Drawing.Point(3, 29);
+            this.dataGridViewStudents.Name = "dataGridViewStudents";
+            this.dataGridViewStudents.Size = new System.Drawing.Size(786, 370);
+            this.dataGridViewStudents.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -373,7 +360,6 @@
             this.tabControl.ResumeLayout(false);
             this.tabPageStudents.ResumeLayout(false);
             this.tabPageStudents.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).EndInit();
             this.tabPageGroups.ResumeLayout(false);
             this.tabPageGroups.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGroups)).EndInit();
@@ -385,6 +371,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDisciplines)).EndInit();
             this.tabPageTeachers.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTeachers)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -403,7 +390,6 @@
         private System.Windows.Forms.DataGridView dataGridViewGroups;
         private System.Windows.Forms.ComboBox comboBoxGroupsDirections;
         private System.Windows.Forms.Label labelGroupsDirections;
-        private System.Windows.Forms.DataGridView dataGridViewStudents;
         private System.Windows.Forms.ComboBox comboBoxStudentsDirections;
         private System.Windows.Forms.Label labelDirections;
         private System.Windows.Forms.Label labelGroups;
@@ -418,7 +404,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBoxDirections;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.DataGridViewImageColumn photoColumn;
+        private System.Windows.Forms.DataGridView dataGridViewStudents;
     }
 }
 
