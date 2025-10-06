@@ -82,6 +82,12 @@
     <Compile Include="StudentsForm.Designer.cs">
       <DependentUpon>StudentsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TeacherForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TeacherForm.Designer.cs">
+      <DependentUpon>TeacherForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Week.cs" />
     <EmbeddedResource Include="AddGroups.resx">
       <DependentUpon>AddGroups.cs</DependentUpon>

@@ -17,10 +17,10 @@ using System.Configuration;
 namespace Academy
 {
 
-        public partial class MainForm : System.Windows.Forms.Form
-        {
-          string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            SqlConnection connection;
+    public partial class MainForm : System.Windows.Forms.Form
+    {
+        string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        SqlConnection connection;
         System.Data.DataSet DirectionsRelatedData = null;
         Dictionary<string, int> d_groupDirection;
         Dictionary<string, int> d_studentsGroup;
@@ -28,7 +28,7 @@ namespace Academy
 
         Query[] queries = new Query[]
         {
-            new Query("stud_id, FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS N'Студент', group_name AS N'Группа', direction_name AS N'Направление'",
+            new Query("stud_id, FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS N'Студент', group_name AS N'Группа', direction_name AS N'Направление', birth_date, email, phone",
                 "Students, Groups, Directions",
                 "[group] = group_id AND direction = direction_id"
                 ),
@@ -51,15 +51,15 @@ namespace Academy
 
         readonly string[] statusBarMassages = new string[]
         {
-        "Количество студентов ", 
-        "Количество групп ", 
-        "Количество направлений ", 
+        "Количество студентов ",
+        "Количество групп ",
+        "Количество направлений ",
         "Количество дисциплин ",
-        "Количество преподавателей " 
+        "Количество преподавателей "
         };
-    
+
         public MainForm()
-            {
+        {
             InitializeComponent();
             AllocConsole();
             connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
@@ -99,10 +99,12 @@ namespace Academy
             directionsAdapter.Fill(DirectionsRelatedData.Tables[dsTableDirections]);
             groupsAdapter.Fill(DirectionsRelatedData.Tables[dsTableDisciplines]);
 
+            comboBoxDirections.Items.Add("Все");
             foreach (DataRow row in DirectionsRelatedData.Tables[dsTableDirections].Rows)
             {
                 comboBoxDirections.Items.Add(row["direction_name"]);
             }
+            comboBoxDirections.SelectedIndex = 0;
 
             d_groupDirection = LoadDataToDictionary("*", "Directions");
             d_studentsGroup = LoadDataToDictionary("*", "Groups");
@@ -114,13 +116,13 @@ namespace Academy
 
             tabControl.SelectedIndex = 0;
 
-            for (int i =0; i < tabControl.TabCount; i++)
+            for (int i = 0; i < tabControl.TabCount; i++)
             {
                 (this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}", true)[0] as DataGridView)
-                    .RowsAdded 
+                    .RowsAdded
                     += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
             }
-         
+
         }
         void LoadTab(int i)
         {
@@ -129,6 +131,8 @@ namespace Academy
             dataGridView.DataSource = Select(queries[i].Fields, queries[i].Tables, queries[i].Condition);
             //  toolStripStatusLabel1.Text = $"{statusBarMassages[i]}: {dataGridView.RowCount - 1}";
             if (i == 1) ConvertLearningDays();
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.ReadOnly = true;
         }
         void FillStatusBar(int i)
         {
@@ -138,10 +142,10 @@ namespace Academy
         {
             DataTable table = new DataTable();
             string cmd = $"SELECT {fields} FROM {tables}";
-            if (!string.IsNullOrWhiteSpace(condition)) 
+            if (!string.IsNullOrWhiteSpace(condition))
                 cmd += $" WHERE {condition}";
-            if (!string.IsNullOrWhiteSpace(group_by)) 
-        cmd += $" GROUP BY {group_by}";
+            if (!string.IsNullOrWhiteSpace(group_by))
+                cmd += $" GROUP BY {group_by}";
 
             cmd += ";";
 
@@ -151,7 +155,7 @@ namespace Academy
             for (int i = 0; i < reader.FieldCount; i++)
                 table.Columns.Add(reader.GetName(i));
 
-            while(reader.Read())
+            while (reader.Read())
             {
                 DataRow row = table.NewRow();
                 for (int i = 0; i < reader.FieldCount; i++) row[i] = reader[i];
@@ -172,7 +176,7 @@ namespace Academy
         }
         void ConvertLearningDays()
         {
-            for(int i = 0; i < dataGridViewGroups.RowCount;i++)
+            for (int i = 0; i < dataGridViewGroups.RowCount; i++)
             {
                 dataGridViewGroups.Rows[i].Cells["learning_days"].Value
                     = new Week(Convert.ToByte(dataGridViewGroups.Rows[i].Cells["learning_days"].Value));
@@ -268,7 +272,7 @@ namespace Academy
             StudentsForm student = new StudentsForm();
             DialogResult result = student.ShowDialog();
             if (result == DialogResult.OK)
-            { 
+            {
                 Insert(
                     "Students",
                     "last_name,first_name,middle_name,birth_date,email,phone,[group]",
@@ -279,9 +283,32 @@ namespace Academy
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            AddTeachers addTeachers = new AddTeachers();
-            addTeachers.Show();
+            TeacherForm teachers = new TeacherForm();
+            DialogResult result = teachers.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                //Insert(
+                //    "Tachers",
+                //    "last_name,first_name,middle_name,birth_date,email,phone,[group],work_since",
+                //    //teachers.Teacher.ToString()
+                //    );
+            }
+        }
+
+        private void comboBoxDirections_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void dataGridViewStudents_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int i = dataGridViewStudents.SelectedRows[0].Index;
+            //Console.WriteLine(row.Index);
+            //Console.WriteLine((dataGridViewStudents.DataSource as DataTable).Rows[i][1]);
+            DataRow row = (dataGridViewStudents.DataSource as DataTable).Rows[i];
+            StudentsForm form = new StudentsForm(row);
+            DialogResult result = form.ShowDialog();
         }
     }
- }
+}
+ 
 
