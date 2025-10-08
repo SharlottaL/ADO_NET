@@ -130,7 +130,7 @@ namespace Academy
         {
             string tableName = tabControl.TabPages[i].Name.Remove(0, "tabPage".Length);
             DataGridView dataGridView = this.Controls.Find($"dataGridView{tableName}", true)[0] as DataGridView;
-            dataGridView.DataSource = Select(queries[i].Fields, queries[i].Tables, queries[i].Condition);
+            dataGridView.DataSource = connector.Select(queries[i].Fields, queries[i].Tables, queries[i].Condition);
             //  toolStripStatusLabel1.Text = $"{statusBarMassages[i]}: {dataGridView.RowCount - 1}";
             if (i == 1) ConvertLearningDays();
             dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -210,7 +210,7 @@ namespace Academy
             string condition = "direction = direction_id";
             if (comboBoxGroupsDirections.SelectedItem.ToString() != "Все")
                 condition += $" AND direction = {d_groupDirection[comboBoxGroupsDirections.SelectedItem.ToString()]}";
-            dataGridViewGroups.DataSource = Select
+            dataGridViewGroups.DataSource = connector.Select
                 (
                 "group_id AS N'ID', group_name AS N'Название группы', direction_name AS N'Направление'",
                 "Groups, Directions",
@@ -234,7 +234,7 @@ namespace Academy
                 $" direction={d_groupDirection[(sender as ComboBox).SelectedItem.ToString()]}";
             comboBoxStudentsGroups.Items.Clear();
             comboBoxStudentsGroups.Items.AddRange(LoadDataToDictionary("*", "Groups", condition).Keys.ToArray());
-            dataGridViewStudents.DataSource = Select
+            dataGridViewStudents.DataSource = connector.Select
                 (
                     queries[0].Fields,
                     queries[0].Tables,
@@ -249,7 +249,7 @@ namespace Academy
                 $"[group]={d_studentsGroup[comboBoxStudentsGroups.SelectedItem.ToString()]}";
             string condition_direction = comboBoxStudentsDirections.SelectedItem.ToString() == "Все" ? "" :
                 $" direction={d_groupDirection[comboBoxStudentsDirections.SelectedItem.ToString()]}";
-            dataGridViewStudents.DataSource = Select
+            dataGridViewStudents.DataSource = connector.Select
                 (
                     queries[0].Fields,
                     queries[0].Tables,
@@ -281,6 +281,8 @@ namespace Academy
                     "last_name,first_name,middle_name,birth_date,email,phone,[group]",
                     student.Student.ToString()
                     );
+                int id = Convert.ToInt32(connector.Scalar("SELECT MAX(stud_id) FROM Students"));
+                connector.UploadPhoto(student.Student.SerializePhoto(), id, "photo","Students");
             }
         }
 
