@@ -286,20 +286,22 @@ namespace Academy
             }
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void buttonAddTeacher_Click(object sender, EventArgs e)
         {
-            TeacherForm teachers = new TeacherForm();
-            DialogResult result = teachers.ShowDialog();
+            TeacherForm teacher = new TeacherForm();
+            DialogResult result = teacher.ShowDialog();
+            int id = Convert.ToInt32(connector.Scalar("SELECT MAX(teacher_id) + 1 FROM Teachers"));
             if (result == DialogResult.OK)
             {
-                //Insert(
-                //    "Tachers",
-                //    "last_name,first_name,middle_name,birth_date,email,phone,[group],work_since",
-                //    //teachers.Teacher.ToString()
-                //    );
+                connector.
+                Insert(
+                    "Teachers",
+                    "teacher_id,last_name,first_name,middle_name,birth_date,email,phone,work_since,rate",
+                   $"{id}, {teacher.Teacher.ToString()}"
+                    );
+                connector.UploadPhoto(teacher.Teacher.SerializePhoto(), id, "photo", "Teachers");
             }
         }
-
         private void comboBoxDirections_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
@@ -321,6 +323,26 @@ namespace Academy
                 comboBoxStudentsGroup_SelectedIndexChanged(null, null);
             }
         }
+
+        private void dataGridViewTeachers_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int i = Convert.ToInt32(dataGridViewTeachers.SelectedRows[0].Cells[0].Value);
+            TeacherForm teacher = new TeacherForm(i);
+            DialogResult result = teacher.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                connector.Update
+                    (
+                    "Teachers",
+                    teacher.Teacher.ToStringUpdate(),
+                    $"teacher_id={i}"
+                    );
+                connector.UploadPhoto(teacher.Teacher.SerializePhoto(), i, "photo", "Teachers");
+               // comboBoxStudentsGroup_SelectedIndexChanged(null, null);
+            }
+        }
+
+       
     }
 }
  

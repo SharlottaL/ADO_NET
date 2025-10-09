@@ -52,7 +52,7 @@
             this.comboBoxDirections = new System.Windows.Forms.ComboBox();
             this.dataGridViewDisciplines = new System.Windows.Forms.DataGridView();
             this.tabPageTeachers = new System.Windows.Forms.TabPage();
-            this.buttonAdd = new System.Windows.Forms.Button();
+            this.buttonAddTeacher = new System.Windows.Forms.Button();
             this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.statusStrip.SuspendLayout();
@@ -317,7 +317,7 @@
             // 
             // tabPageTeachers
             // 
-            this.tabPageTeachers.Controls.Add(this.buttonAdd);
+            this.tabPageTeachers.Controls.Add(this.buttonAddTeacher);
             this.tabPageTeachers.Controls.Add(this.dataGridViewTeachers);
             this.tabPageTeachers.Location = new System.Drawing.Point(4, 22);
             this.tabPageTeachers.Name = "tabPageTeachers";
@@ -327,15 +327,15 @@
             this.tabPageTeachers.Text = "Teachers";
             this.tabPageTeachers.UseVisualStyleBackColor = true;
             // 
-            // buttonAdd
+            // buttonAddTeacher
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(709, 6);
-            this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(75, 23);
-            this.buttonAdd.TabIndex = 1;
-            this.buttonAdd.Text = "Add";
-            this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            this.buttonAddTeacher.Location = new System.Drawing.Point(709, 6);
+            this.buttonAddTeacher.Name = "buttonAddTeacher";
+            this.buttonAddTeacher.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddTeacher.TabIndex = 1;
+            this.buttonAddTeacher.Text = "Add";
+            this.buttonAddTeacher.UseVisualStyleBackColor = true;
+            this.buttonAddTeacher.Click += new System.EventHandler(this.buttonAddTeacher_Click);
             // 
             // dataGridViewTeachers
             // 
@@ -349,6 +349,7 @@
             this.dataGridViewTeachers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewTeachers.Size = new System.Drawing.Size(789, 356);
             this.dataGridViewTeachers.TabIndex = 0;
+            this.dataGridViewTeachers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewTeachers_MouseDoubleClick);
             // 
             // imageList1
             // 
@@ -410,7 +411,7 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button buttonAddGroups;
         private System.Windows.Forms.Button buttonAddStudent;
-        private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.Button buttonAddTeacher;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBoxDirections;
         private System.Windows.Forms.ImageList imageList1;

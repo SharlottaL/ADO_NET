@@ -53,7 +53,7 @@
             // labelLastName
             // 
             this.labelLastName.AutoSize = true;
-            this.labelLastName.Location = new System.Drawing.Point(59, 20);
+            this.labelLastName.Location = new System.Drawing.Point(51, 19);
             this.labelLastName.Name = "labelLastName";
             this.labelLastName.Size = new System.Drawing.Size(56, 13);
             this.labelLastName.TabIndex = 0;
@@ -62,7 +62,7 @@
             // labelFirstName
             // 
             this.labelFirstName.AutoSize = true;
-            this.labelFirstName.Location = new System.Drawing.Point(86, 65);
+            this.labelFirstName.Location = new System.Drawing.Point(78, 64);
             this.labelFirstName.Name = "labelFirstName";
             this.labelFirstName.Size = new System.Drawing.Size(29, 13);
             this.labelFirstName.TabIndex = 1;
@@ -71,7 +71,7 @@
             // labelMiddlName
             // 
             this.labelMiddlName.AutoSize = true;
-            this.labelMiddlName.Location = new System.Drawing.Point(61, 110);
+            this.labelMiddlName.Location = new System.Drawing.Point(53, 109);
             this.labelMiddlName.Name = "labelMiddlName";
             this.labelMiddlName.Size = new System.Drawing.Size(54, 13);
             this.labelMiddlName.TabIndex = 2;
@@ -80,7 +80,7 @@
             // labelBirthDate
             // 
             this.labelBirthDate.AutoSize = true;
-            this.labelBirthDate.Location = new System.Drawing.Point(28, 155);
+            this.labelBirthDate.Location = new System.Drawing.Point(20, 154);
             this.labelBirthDate.Name = "labelBirthDate";
             this.labelBirthDate.Size = new System.Drawing.Size(87, 13);
             this.labelBirthDate.TabIndex = 3;
@@ -89,7 +89,7 @@
             // labelEmail
             // 
             this.labelEmail.AutoSize = true;
-            this.labelEmail.Location = new System.Drawing.Point(83, 200);
+            this.labelEmail.Location = new System.Drawing.Point(75, 199);
             this.labelEmail.Name = "labelEmail";
             this.labelEmail.Size = new System.Drawing.Size(32, 13);
             this.labelEmail.TabIndex = 4;
@@ -98,7 +98,7 @@
             // labelPhone
             // 
             this.labelPhone.AutoSize = true;
-            this.labelPhone.Location = new System.Drawing.Point(63, 245);
+            this.labelPhone.Location = new System.Drawing.Point(55, 244);
             this.labelPhone.Name = "labelPhone";
             this.labelPhone.Size = new System.Drawing.Size(52, 13);
             this.labelPhone.TabIndex = 5;
@@ -107,7 +107,7 @@
             // labelGroup
             // 
             this.labelGroup.AutoSize = true;
-            this.labelGroup.Location = new System.Drawing.Point(73, 290);
+            this.labelGroup.Location = new System.Drawing.Point(65, 289);
             this.labelGroup.Name = "labelGroup";
             this.labelGroup.Size = new System.Drawing.Size(42, 13);
             this.labelGroup.TabIndex = 6;
@@ -115,21 +115,21 @@
             // 
             // textBoxLastName
             // 
-            this.textBoxLastName.Location = new System.Drawing.Point(131, 13);
+            this.textBoxLastName.Location = new System.Drawing.Point(123, 12);
             this.textBoxLastName.Name = "textBoxLastName";
             this.textBoxLastName.Size = new System.Drawing.Size(161, 20);
             this.textBoxLastName.TabIndex = 7;
             // 
             // textBoxFirstName
             // 
-            this.textBoxFirstName.Location = new System.Drawing.Point(131, 58);
+            this.textBoxFirstName.Location = new System.Drawing.Point(123, 57);
             this.textBoxFirstName.Name = "textBoxFirstName";
             this.textBoxFirstName.Size = new System.Drawing.Size(161, 20);
             this.textBoxFirstName.TabIndex = 8;
             // 
             // textBoxMiddleName
             // 
-            this.textBoxMiddleName.Location = new System.Drawing.Point(131, 103);
+            this.textBoxMiddleName.Location = new System.Drawing.Point(123, 102);
             this.textBoxMiddleName.Name = "textBoxMiddleName";
             this.textBoxMiddleName.Size = new System.Drawing.Size(161, 20);
             this.textBoxMiddleName.TabIndex = 9;
@@ -137,21 +137,21 @@
             // dateTimePickerBirthDate
             // 
             this.dateTimePickerBirthDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePickerBirthDate.Location = new System.Drawing.Point(131, 148);
+            this.dateTimePickerBirthDate.Location = new System.Drawing.Point(123, 147);
             this.dateTimePickerBirthDate.Name = "dateTimePickerBirthDate";
             this.dateTimePickerBirthDate.Size = new System.Drawing.Size(161, 20);
             this.dateTimePickerBirthDate.TabIndex = 10;
             // 
             // textBoxEmail
             // 
-            this.textBoxEmail.Location = new System.Drawing.Point(131, 193);
+            this.textBoxEmail.Location = new System.Drawing.Point(123, 192);
             this.textBoxEmail.Name = "textBoxEmail";
             this.textBoxEmail.Size = new System.Drawing.Size(161, 20);
             this.textBoxEmail.TabIndex = 11;
             // 
             // textBoxPhone
             // 
-            this.textBoxPhone.Location = new System.Drawing.Point(131, 238);
+            this.textBoxPhone.Location = new System.Drawing.Point(123, 237);
             this.textBoxPhone.Name = "textBoxPhone";
             this.textBoxPhone.Size = new System.Drawing.Size(161, 20);
             this.textBoxPhone.TabIndex = 12;
@@ -160,7 +160,7 @@
             // 
             this.comboBoxGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxGroups.FormattingEnabled = true;
-            this.comboBoxGroups.Location = new System.Drawing.Point(131, 283);
+            this.comboBoxGroups.Location = new System.Drawing.Point(123, 282);
             this.comboBoxGroups.Name = "comboBoxGroups";
             this.comboBoxGroups.Size = new System.Drawing.Size(161, 21);
             this.comboBoxGroups.TabIndex = 13;
