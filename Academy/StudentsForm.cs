@@ -113,5 +113,10 @@ namespace Academy
             }
             
         }
+
+        private void StudentsForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

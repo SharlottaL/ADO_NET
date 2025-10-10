@@ -34,7 +34,6 @@
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
             this.labelID = new System.Windows.Forms.Label();
-            this.pictureBoxPhoto = new System.Windows.Forms.PictureBox();
             this.labelLastName = new System.Windows.Forms.Label();
             this.labelFirstName = new System.Windows.Forms.Label();
             this.labelMiddlName = new System.Windows.Forms.Label();
@@ -43,10 +42,11 @@
             this.labelPhone = new System.Windows.Forms.Label();
             this.textBoxLastName = new System.Windows.Forms.TextBox();
             this.textBoxFirstName = new System.Windows.Forms.TextBox();
-            this.textBoxPhone = new System.Windows.Forms.TextBox();
+            this.textBoxMiddleName = new System.Windows.Forms.TextBox();
             this.dateTimePickerBirthDate = new System.Windows.Forms.DateTimePicker();
             this.textBoxEmail = new System.Windows.Forms.TextBox();
-            this.textBoxMiddleName = new System.Windows.Forms.TextBox();
+            this.textBoxPhone = new System.Windows.Forms.TextBox();
+            this.pictureBoxPhoto = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).BeginInit();
             this.SuspendLayout();
             // 
@@ -109,16 +109,6 @@
             this.labelID.TabIndex = 18;
             this.labelID.Text = "ID";
             this.labelID.Visible = false;
-            // 
-            // pictureBoxPhoto
-            // 
-            this.pictureBoxPhoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxPhoto.Location = new System.Drawing.Point(344, 12);
-            this.pictureBoxPhoto.Name = "pictureBoxPhoto";
-            this.pictureBoxPhoto.Size = new System.Drawing.Size(286, 322);
-            this.pictureBoxPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxPhoto.TabIndex = 14;
-            this.pictureBoxPhoto.TabStop = false;
             // 
             // labelLastName
             // 
@@ -188,12 +178,12 @@
             this.textBoxFirstName.Size = new System.Drawing.Size(161, 20);
             this.textBoxFirstName.TabIndex = 8;
             // 
-            // textBoxPhone
+            // textBoxMiddleName
             // 
-            this.textBoxPhone.Location = new System.Drawing.Point(123, 237);
-            this.textBoxPhone.Name = "textBoxPhone";
-            this.textBoxPhone.Size = new System.Drawing.Size(161, 20);
-            this.textBoxPhone.TabIndex = 12;
+            this.textBoxMiddleName.Location = new System.Drawing.Point(123, 102);
+            this.textBoxMiddleName.Name = "textBoxMiddleName";
+            this.textBoxMiddleName.Size = new System.Drawing.Size(161, 20);
+            this.textBoxMiddleName.TabIndex = 9;
             // 
             // dateTimePickerBirthDate
             // 
@@ -210,12 +200,22 @@
             this.textBoxEmail.Size = new System.Drawing.Size(161, 20);
             this.textBoxEmail.TabIndex = 11;
             // 
-            // textBoxMiddleName
+            // textBoxPhone
             // 
-            this.textBoxMiddleName.Location = new System.Drawing.Point(123, 102);
-            this.textBoxMiddleName.Name = "textBoxMiddleName";
-            this.textBoxMiddleName.Size = new System.Drawing.Size(161, 20);
-            this.textBoxMiddleName.TabIndex = 9;
+            this.textBoxPhone.Location = new System.Drawing.Point(123, 237);
+            this.textBoxPhone.Name = "textBoxPhone";
+            this.textBoxPhone.Size = new System.Drawing.Size(161, 20);
+            this.textBoxPhone.TabIndex = 12;
+            // 
+            // pictureBoxPhoto
+            // 
+            this.pictureBoxPhoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxPhoto.Location = new System.Drawing.Point(344, 12);
+            this.pictureBoxPhoto.Name = "pictureBoxPhoto";
+            this.pictureBoxPhoto.Size = new System.Drawing.Size(286, 322);
+            this.pictureBoxPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxPhoto.TabIndex = 14;
+            this.pictureBoxPhoto.TabStop = false;
             // 
             // StudentsForm
             // 
@@ -244,6 +244,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "StudentsForm";
             this.Text = "StudentsForm";
+            this.Load += new System.EventHandler(this.StudentsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -257,7 +258,6 @@
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Label labelID;
-        private System.Windows.Forms.PictureBox pictureBoxPhoto;
         private System.Windows.Forms.Label labelLastName;
         private System.Windows.Forms.Label labelFirstName;
         private System.Windows.Forms.Label labelMiddlName;
@@ -266,9 +266,10 @@
         private System.Windows.Forms.Label labelPhone;
         private System.Windows.Forms.TextBox textBoxLastName;
         private System.Windows.Forms.TextBox textBoxFirstName;
-        private System.Windows.Forms.TextBox textBoxPhone;
+        private System.Windows.Forms.TextBox textBoxMiddleName;
         private System.Windows.Forms.DateTimePicker dateTimePickerBirthDate;
         private System.Windows.Forms.TextBox textBoxEmail;
-        private System.Windows.Forms.TextBox textBoxMiddleName;
+        private System.Windows.Forms.TextBox textBoxPhone;
+        private System.Windows.Forms.PictureBox pictureBoxPhoto;
     }
 }
