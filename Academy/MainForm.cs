@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Configuration;
+//using System.Configuration;
 namespace Academy
 {
 
@@ -79,7 +79,7 @@ namespace Academy
             // Выбираем первичный ключ
             DirectionsRelatedData.Tables[dsTableDirections].PrimaryKey =
                 new DataColumn[] { DirectionsRelatedData.Tables[dsTableDirections].Columns[dstDirections_col_direction_id] };
-
+          
             const string dsTableDisciplines = "Disciplines";
             const string dstDisciplines_col_discipline_id = "discipline_id";
             const string dstDisciplines_col_discipline_name = "discipline_name";
@@ -92,14 +92,30 @@ namespace Academy
             // Выбираем первичный ключ
             DirectionsRelatedData.Tables[dsTableDisciplines].PrimaryKey =
                 new DataColumn[] { DirectionsRelatedData.Tables[dsTableDisciplines].Columns[dstDisciplines_col_discipline_id] };
+
+            const string dsTableDisciplinesDirectionsRelation = "DisciplinesDirectionsRelation";
+            const string dstDisciplinesDirectionsRelation_col_direction = "direction";
+            const string dstDisciplinesDirectionsRelation_col_discipline = "discipline";
+            DirectionsRelatedData.Tables.Add(dsTableDisciplinesDirectionsRelation);
+            //Добавить поля в таблицу
+            DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns.Add(dstDisciplinesDirectionsRelation_col_direction);
+            DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns.Add(dstDisciplinesDirectionsRelation_col_discipline);
+            // Выбираем первичный ключ
+            DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].PrimaryKey =
+                new DataColumn[] { DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns[dstDisciplinesDirectionsRelation_col_direction],
+                DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns[dstDisciplinesDirectionsRelation_col_discipline]};
+
             string directions_cmd = "SELECT * FROM Directions";
             string disciplines_cmd = "SELECT * FROM Disciplines";
+            string disciplines_directions_relation_cmd = "SELECT * FROM DisciplinesDirectionsRelation";
 
             SqlDataAdapter directionsAdapter = new SqlDataAdapter(directions_cmd, connection);
-            SqlDataAdapter groupsAdapter = new SqlDataAdapter(disciplines_cmd, connection);
+            SqlDataAdapter disciplinesAdapter = new SqlDataAdapter(disciplines_cmd, connection);
+            SqlDataAdapter disciplinesDirectionsRelationAdapter = new SqlDataAdapter(disciplines_directions_relation_cmd, connection);
 
             directionsAdapter.Fill(DirectionsRelatedData.Tables[dsTableDirections]);
-            groupsAdapter.Fill(DirectionsRelatedData.Tables[dsTableDisciplines]);
+            disciplinesAdapter.Fill(DirectionsRelatedData.Tables[dsTableDisciplines]);
+            disciplinesDirectionsRelationAdapter.Fill(DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation]);
 
             comboBoxDirections.Items.Add("Все");
             foreach (DataRow row in DirectionsRelatedData.Tables[dsTableDirections].Rows)
@@ -258,8 +274,7 @@ namespace Academy
                     + (string.IsNullOrWhiteSpace(condition_direction) ? "" : $" AND {condition_direction}")
                 );
         }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void comboBoxDirections_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
 
@@ -302,9 +317,7 @@ namespace Academy
                 connector.UploadPhoto(teacher.Teacher.SerializePhoto(), id, "photo", "Teachers");
             }
         }
-        private void comboBoxDirections_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
+        
 
         private void dataGridViewStudents_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -341,8 +354,6 @@ namespace Academy
                // comboBoxStudentsGroup_SelectedIndexChanged(null, null);
             }
         }
-
-       
     }
 }
  

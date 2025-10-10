@@ -43,8 +43,8 @@ namespace Academy
             {
                 // MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
+
         void InitForm()
         {
             textBoxLastName.Text = "Ковтун";
