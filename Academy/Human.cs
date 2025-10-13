@@ -19,8 +19,7 @@ namespace Academy
         public string Email { get; set; }
         public string Phone { get; set; }
         public Image Photo { get; set; }
-        //protected DataTable human { get; set; }
-        protected DataTable HumanData { get; private set; }
+        protected DataTable HumanData { get; set; }
         public Human() { }
         public Human(int human_id, string table, string fields)
         {
