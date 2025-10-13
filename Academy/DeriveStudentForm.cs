@@ -28,7 +28,7 @@ namespace Academy
         protected override void Extract()
         {
             base.Extract();
-            comboBoxGroups.SelectedIndex = (Human as Student).Group;
+            comboBoxGroups.SelectedValue = (Human as Student).Group;
             labelID.Text = (Human as Student).ID.ToString();
         }
         protected override void buttonOK_Click(object sender, EventArgs e)

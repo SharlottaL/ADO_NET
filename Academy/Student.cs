@@ -14,11 +14,9 @@ namespace Academy
     {
         public int Group { get; set; }
         public Student() { }
-        public Student(int stud_id) :base(stud_id, "Students","stud_id")
+        public Student(int stud_id) : base(stud_id, "Students","stud_id")
         {
-            Connector connector = new Connector();
-            DataTable student = connector.Select("[group]", "Students", $"stud_id={stud_id}");
-            Group = Convert.ToInt32(student.Rows[0]["group"]);
+            Group = Convert.ToInt32(HumanData.Rows[0][8].ToString());
         }
         public Student(string last_name, string first_name, string middle_name,
             string birth_date, string email, string phone, 

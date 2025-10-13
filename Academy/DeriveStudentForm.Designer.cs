@@ -93,7 +93,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox comboBoxGroups;
+        protected System.Windows.Forms.ComboBox comboBoxGroups;
         private System.Windows.Forms.Label labelGroup;
         private System.Windows.Forms.ColorDialog colorDialog1;
     }

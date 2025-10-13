@@ -25,6 +25,8 @@ namespace Academy
         protected override void Extract()
         {
             base.Extract();
+            dateTimePickerWorkSince.Text = (Human as Teacher).WorkSince.ToString();
+            textBoxRate.Text = (Human as Teacher).Rate.ToString();
             labelID.Text = (Human as Teacher).ID.ToString();
         }
         protected override void buttonOK_Click(object sender, EventArgs e)
