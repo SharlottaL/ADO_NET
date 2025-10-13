@@ -1,49 +1,170 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
+using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-
+//using System.Configuration;
 namespace Academy
 {
 
-        public partial class MainForm : Form
-        {
-            string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            SqlConnection connection;
-        Dictionary<string, int> d_groupsDirection;
-    
-        public MainForm()
-            {
-                InitializeComponent();
-                connection = new SqlConnection(connectionString);
-            //LoadDirections();
-            //LoadGroups();
-            dataGridViewDirections.DataSource = Select("*", "Directions");
-            dataGridViewGroups.DataSource = Select
-                (
-                "group_id, group_name, direction", "Groups, Directions", "direction = direction_id"
-                );
-            dataGridViewStudents.DataSource = Select("*", "Students");
-        
+    public partial class MainForm : System.Windows.Forms.Form
+    {
+        string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        SqlConnection connection;
+        Connector connector;
+        System.Data.DataSet DirectionsRelatedData = null;
+        Dictionary<string, int> d_groupDirection;
+        Dictionary<string, int> d_studentsGroup;
 
-            //LoadDisciplines();
-            //LoadStudents();
-            d_groupsDirection  = LoadDataToComboBox("*", "Directions");
-            comboBoxGroupsDirections.Items.AddRange(d_groupsDirection.Keys.ToArray());
-            comboBoxGroupsDirections.SelectedIndex = 0;
+
+        Query[] queries = new Query[]
+        {
+            new Query("stud_id, FORMATMESSAGE(N'%s %s %s', last_name, first_name, middle_name) AS N'Студент', group_name AS N'Группа', direction_name AS N'Направление', birth_date, email, phone",
+                "Students, Groups, Directions",
+                "[group] = group_id AND direction = direction_id"
+                ),
+            new Query
+            (
+              "group_id, group_name, learning_days, direction_name AS N'Направление'",
+              "Groups, Directions",
+              "direction=direction_id"
+            ),
+            new Query(
+            "direction_id, direction_name, (SELECT COUNT(*) FROM Groups WHERE direction = direction_id) AS N'Количество групп'",
+            "Directions",
+            "",
+            ""
+         ),
+            new Query ("*", "Disciplines" ),
+            new Query ("*", "Teachers" )
+
+        };
+
+        readonly string[] statusBarMassages = new string[]
+        {
+        "Количество студентов ",
+        "Количество групп ",
+        "Количество направлений ",
+        "Количество дисциплин ",
+        "Количество преподавателей "
+        };
+
+        public MainForm()
+        {
+            InitializeComponent();
+            AllocConsole();
+            connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
+            Console.WriteLine(tabControl.TabCount);
+            connection = new SqlConnection(connectionString);
+            connector = new Connector();
+
+            DirectionsRelatedData = new System.Data.DataSet(nameof(DirectionsRelatedData));
+            const string dsTableDirections = "Directions";
+            const string dstDirections_col_direction_id = "direction_id";
+            const string dstDirections_col_direction_name = "direction_name";
+            DirectionsRelatedData.Tables.Add(dsTableDirections);
+            //Добавить поля в таблицу
+            DirectionsRelatedData.Tables[dsTableDirections].Columns.Add(dstDirections_col_direction_id);
+            DirectionsRelatedData.Tables[dsTableDirections].Columns.Add(dstDirections_col_direction_name);
+            // Выбираем первичный ключ
+            DirectionsRelatedData.Tables[dsTableDirections].PrimaryKey =
+                new DataColumn[] { DirectionsRelatedData.Tables[dsTableDirections].Columns[dstDirections_col_direction_id] };
+
+            const string dsTableDisciplines = "Disciplines";
+            const string dstDisciplines_col_discipline_id = "discipline_id";
+            const string dstDisciplines_col_discipline_name = "discipline_name";
+            const string dstDisciplines_col_number_of_lessons = "number_of_lessons";
+            DirectionsRelatedData.Tables.Add(dsTableDisciplines);
+            //Добавить поля в таблицу
+            DirectionsRelatedData.Tables[dsTableDisciplines].Columns.Add(dstDisciplines_col_discipline_id);
+            DirectionsRelatedData.Tables[dsTableDisciplines].Columns.Add(dstDisciplines_col_discipline_name);
+            DirectionsRelatedData.Tables[dsTableDisciplines].Columns.Add(dstDisciplines_col_number_of_lessons);
+            // Выбираем первичный ключ
+            DirectionsRelatedData.Tables[dsTableDisciplines].PrimaryKey =
+                new DataColumn[] { DirectionsRelatedData.Tables[dsTableDisciplines].Columns[dstDisciplines_col_discipline_id] };
+
+            const string dsTableDisciplinesDirectionsRelation = "DisciplinesDirectionsRelation";
+            const string dstDisciplinesDirectionsRelation_col_direction = "direction";
+            const string dstDisciplinesDirectionsRelation_col_discipline = "discipline";
+            DirectionsRelatedData.Tables.Add(dsTableDisciplinesDirectionsRelation);
+            //Добавить поля в таблицу
+            DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns.Add(dstDisciplinesDirectionsRelation_col_direction);
+            DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns.Add(dstDisciplinesDirectionsRelation_col_discipline);
+            // Выбираем первичный ключ
+            DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].PrimaryKey =
+                new DataColumn[] { DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns[dstDisciplinesDirectionsRelation_col_direction],
+                DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns[dstDisciplinesDirectionsRelation_col_discipline]};
+
+            string directions_cmd = "SELECT * FROM Directions";
+            string disciplines_cmd = "SELECT * FROM Disciplines";
+            string disciplines_directions_relation_cmd = "SELECT * FROM DisciplinesDirectionsRelation";
+
+            SqlDataAdapter directionsAdapter = new SqlDataAdapter(directions_cmd, connection);
+            SqlDataAdapter disciplinesAdapter = new SqlDataAdapter(disciplines_cmd, connection);
+            SqlDataAdapter disciplinesDirectionsRelationAdapter = new SqlDataAdapter(disciplines_directions_relation_cmd, connection);
+
+            directionsAdapter.Fill(DirectionsRelatedData.Tables[dsTableDirections]);
+            disciplinesAdapter.Fill(DirectionsRelatedData.Tables[dsTableDisciplines]);
+            disciplinesDirectionsRelationAdapter.Fill(DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation]);
+
+            comboBoxDirections.Items.Add("Все");
+            foreach (DataRow row in DirectionsRelatedData.Tables[dsTableDirections].Rows)
+            {
+                comboBoxDirections.Items.Add(row["direction_name"]);
+            }
+            comboBoxDirections.SelectedIndex = 0;
+
+            d_groupDirection = LoadDataToDictionary("*", "Directions");
+            d_studentsGroup = LoadDataToDictionary("*", "Groups");
+            comboBoxGroupsDirections.Items.AddRange(d_groupDirection.Keys.ToArray());
+            comboBoxStudentsDirections.Items.AddRange(d_groupDirection.Keys.ToArray());
+            comboBoxStudentsGroups.Items.AddRange(d_studentsGroup.Keys.ToArray());
+            comboBoxStudentsDirections.SelectedIndex = comboBoxGroupsDirections.SelectedIndex = 0;
+            comboBoxStudentsGroups.SelectedIndex = 0;
+
+            tabControl.SelectedIndex = 0;
+
+            for (int i = 0; i < tabControl.TabCount; i++)
+            {
+                (this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}", true)[0] as DataGridView)
+                    .RowsAdded
+                    += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
+            }
+
         }
-        DataTable Select(string fields, string tables, string condition = "")
+        void LoadTab(int i)
+        {
+            string tableName = tabControl.TabPages[i].Name.Remove(0, "tabPage".Length);
+            DataGridView dataGridView = this.Controls.Find($"dataGridView{tableName}", true)[0] as DataGridView;
+            dataGridView.DataSource = connector.Select(queries[i].Fields, queries[i].Tables, queries[i].Condition);
+            //  toolStripStatusLabel1.Text = $"{statusBarMassages[i]}: {dataGridView.RowCount - 1}";
+            if (i == 1) ConvertLearningDays();
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.ReadOnly = true;
+        }
+        void FillStatusBar(int i)
+        {
+
+        }
+        DataTable Select(string fields, string tables, string condition = "", string group_by = "")
         {
             DataTable table = new DataTable();
             string cmd = $"SELECT {fields} FROM {tables}";
-            if (!string.IsNullOrWhiteSpace(condition)) 
+            if (!string.IsNullOrWhiteSpace(condition))
                 cmd += $" WHERE {condition}";
+            if (!string.IsNullOrWhiteSpace(group_by))
+                cmd += $" GROUP BY {group_by}";
+
             cmd += ";";
 
             SqlCommand command = new SqlCommand(cmd, connection);
@@ -52,7 +173,7 @@ namespace Academy
             for (int i = 0; i < reader.FieldCount; i++)
                 table.Columns.Add(reader.GetName(i));
 
-            while(reader.Read())
+            while (reader.Read())
             {
                 DataRow row = table.NewRow();
                 for (int i = 0; i < reader.FieldCount; i++) row[i] = reader[i];
@@ -62,96 +183,39 @@ namespace Academy
             connection.Close();
             return table;
         }
-        void LoadDirections()
+
+        void Insert(string table, string fields, string values)
         {
-            string cmd = "SELECT * FROM Directions";
+            string cmd = $"INSERT {table}({fields}) VALUES ({values})";
             SqlCommand command = new SqlCommand(cmd, connection);
             connection.Open();
-            SqlDataReader reader = command.ExecuteReader();
-            DataTable table = new DataTable();
-            for (int i = 0; i < reader.FieldCount; i++)
-                table.Columns.Add(reader.GetName(i));
-
-            while (reader.Read())
-            {
-                DataRow row = table.NewRow();
-                for (int i = 0; i < reader.FieldCount; i++)
-                    row[i] = reader[i];
-
-                table.Rows.Add(row);
-            }
-            reader.Close();
+            command.ExecuteNonQuery();
             connection.Close();
-            dataGridViewDirections.DataSource = table;
         }
-        void LoadGroups()
+        void ConvertLearningDays()
         {
-            string cmd =
-                @"SELECT
-                group_id AS N'ID', group_name AS N'Группа', COUNT(stud_id) AS N'Количество студентов: ',  direction_name AS N'Направление'
-                FROM Students
-                RIGHT   JOIN Groups ON([group] = group_id)
-                        JOIN Directions ON (direction = direction_id)
-                GROUP BY group_id, group_name, direction, direction_name;";
-            SqlCommand command = new SqlCommand(cmd, connection);
-            connection.Open();
-            SqlDataReader reader = command.ExecuteReader();
-            DataTable table = new DataTable();
-            for (int i = 0; i < reader.FieldCount; i++)
-                table.Columns.Add(reader.GetName(i));
-
-            while (reader.Read())
+            for (int i = 0; i < dataGridViewGroups.RowCount; i++)
             {
-                DataRow row = table.NewRow();
-                for (int i = 0; i < reader.FieldCount; i++)
-                    row[i] = reader[i];
-
-                table.Rows.Add(row);
+                dataGridViewGroups.Rows[i].Cells["learning_days"].Value
+                    = new Week(Convert.ToByte(dataGridViewGroups.Rows[i].Cells["learning_days"].Value));
             }
-            reader.Close();
-            connection.Close();
-            dataGridViewDirections.DataSource = table;
         }
-        void LoadDisciplines()
-        {
-            string cmd =
-                @"SELECT
-                direction_id AS N'ID, direction_name AN N'Направление', COUNT(group_id) AS N'Количество групп'
-                FROM Groups
-                RIGHT JOIN Directions ON (direction=direction_id)
-                GROUP BY direction_id, direction_name;";
-            SqlCommand command = new SqlCommand(cmd, connection);
-            connection.Open();
-            SqlDataReader reader = command.ExecuteReader();
-            DataTable table = new DataTable();
-            for (int i = 0; i < reader.FieldCount; i++)
-                table.Columns.Add(reader.GetName(i));
-
-            while (reader.Read())
-            {
-                DataRow row = table.NewRow();
-                for (int i = 0; i < reader.FieldCount; i++)
-                    row[i] = reader[i];
-
-                table.Rows.Add(row);
-            }
-            reader.Close();
-            connection.Close();
-            dataGridViewDirections.DataSource = table;
-        }
-        Dictionary<string, int> LoadDataToComboBox(string fields, string tables)
+        Dictionary<string, int> LoadDataToDictionary(string fields, string tables, string condition = "")
         {
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
             dictionary.Add("Все", 0);
             string cmd = $"SELECT {fields} FROM {tables}";
+            if (!string.IsNullOrWhiteSpace(condition))
+                cmd += $" WHERE {condition}";
+
             SqlCommand command = new SqlCommand(cmd, connection);
             connection.Open();
             SqlDataReader reader = command.ExecuteReader();
-            while(reader.Read())
+            while (reader.Read())
             {
-                //comboBoxGroupsDirections.Items.Add(reader[1]);
+                //comboBoxGroupsDirection.Items.Add(reader[1]);
                 dictionary.Add(reader[1].ToString(), Convert.ToInt32(reader[0]));
-                    }
+            }
             reader.Close();
             connection.Close();
             return dictionary;
@@ -161,16 +225,150 @@ namespace Academy
         {
             string condition = "direction = direction_id";
             if (comboBoxGroupsDirections.SelectedItem.ToString() != "Все")
-                condition += $" AND direction = {d_groupsDirection[comboBoxGroupsDirections.SelectedItem.ToString()]}";
-            dataGridViewGroups.DataSource = Select
+                condition += $" AND direction = {d_groupDirection[comboBoxGroupsDirections.SelectedItem.ToString()]}";
+            dataGridViewGroups.DataSource = connector.Select
                 (
-                "group_id, group_name, direction",
+                "group_id AS N'ID', group_name AS N'Название группы', direction_name AS N'Направление'",
                 "Groups, Directions",
                  condition
               );
         }
+        [DllImport("kernel32.dll")]
+        static extern void AllocConsole();
 
-      
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadTab((sender as TabControl).SelectedIndex);
+        }
+        private void dataGridViewChanged(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = $"{statusBarMassages[tabControl.SelectedIndex]}: {(sender as DataGridView).RowCount - 1}";
+        }
+        private void comboBoxStudentsDirection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string condition = comboBoxStudentsDirections.SelectedItem.ToString() == "Все" ? "" :
+                $" direction={d_groupDirection[(sender as ComboBox).SelectedItem.ToString()]}";
+            comboBoxStudentsGroups.Items.Clear();
+            comboBoxStudentsGroups.Items.AddRange(LoadDataToDictionary("*", "Groups", condition).Keys.ToArray());
+            dataGridViewStudents.DataSource = connector.Select
+                (
+                    queries[0].Fields,
+                    queries[0].Tables,
+                    queries[0].Condition + (string.IsNullOrEmpty(condition) ? "" : $" AND {condition}")
+                );
+        }
+
+        private void comboBoxStudentsGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string condition_group =
+                comboBoxStudentsGroups.SelectedItem.ToString() == "Все" ? "" :
+                $"[group]={d_studentsGroup[comboBoxStudentsGroups.SelectedItem.ToString()]}";
+            string condition_direction = comboBoxStudentsDirections.SelectedItem.ToString() == "Все" ? "" :
+                $" direction={d_groupDirection[comboBoxStudentsDirections.SelectedItem.ToString()]}";
+            dataGridViewStudents.DataSource = connector.Select
+                (
+                    queries[0].Fields,
+                    queries[0].Tables,
+                    queries[0].Condition
+                    + (string.IsNullOrWhiteSpace(condition_group) ? "" : $" AND {condition_group}")
+                    + (string.IsNullOrWhiteSpace(condition_direction) ? "" : $" AND {condition_direction}")
+                );
+        }
+        private void comboBoxDirections_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void buttonAddGroups_Click(object sender, EventArgs e)
+        {
+            AddGroups addGroups = new AddGroups();
+            addGroups.Show();
+        }
+
+        private void buttonAddStudent_Click(object sender, EventArgs e)
+        {
+            StudentsForm student = new StudentsForm();
+            DialogResult result = student.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                connector.
+                Insert(
+                    "Students",
+                    "last_name,first_name,middle_name,birth_date,email,phone,[group]",
+                    student.Student.ToString()
+                    );
+                int id = Convert.ToInt32(connector.Scalar("SELECT MAX(stud_id) FROM Students"));
+                connector.UploadPhoto(student.Student.SerializePhoto(), id, "photo", "Students");
+            }
+        }
+
+        private void buttonAddTeacher_Click(object sender, EventArgs e)
+        {
+            TeacherForm teacher = new TeacherForm();
+            DialogResult result = teacher.ShowDialog();
+            int id = Convert.ToInt32(connector.Scalar("SELECT MAX(teacher_id) + 1 FROM Teachers"));
+            if (result == DialogResult.OK)
+            {
+                connector.
+                Insert(
+                    "Teachers",
+                    "teacher_id,last_name,first_name,middle_name,birth_date,email,phone,work_since,rate",
+                   $"{id}, {teacher.Teacher.ToString()}"
+                    );
+                connector.UploadPhoto(teacher.Teacher.SerializePhoto(), id, "photo", "Teachers");
+            }
+        }
+
+
+        private void dataGridViewStudents_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int i = Convert.ToInt32(dataGridViewStudents.SelectedRows[0].Cells[0].Value);
+            //StudentsForm student = new StudentsForm(i);
+            //DialogResult result = student.ShowDialog();
+            //if (result == DialogResult.OK)
+            //{
+            //    connector.Update
+            //        (
+            //        "Students",
+            //        student.Student.ToStringUpdate(),
+            //        $"stud_id={i}"
+            //        );
+            //    connector.UploadPhoto(student.Student.SerializePhoto(), i, "photo", "Students");
+            //    comboBoxStudentsGroup_SelectedIndexChanged(null, null);
+            DeriveStudentForm student = new DeriveStudentForm(i);
+            DialogResult result = student.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                connector.Update
+                    (
+                    "Students",
+                   (student.Human as Student).ToStringUpdate(),
+                   $"stud_id={i}"
+                    );
+                connector.UploadPhoto((student.Human as Student).SerializePhoto(), i, "photo", "Students");
+                comboBoxStudentsGroup_SelectedIndexChanged(null, null);
+            }
+            //}
+        }
+
+        private void dataGridViewTeachers_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int i = Convert.ToInt32(dataGridViewTeachers.SelectedRows[0].Cells[0].Value);
+            DeriveTeacherForm teacher = new DeriveTeacherForm(i);
+            DialogResult result = teacher.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                connector.Update
+                    (
+                    "Teachers",
+                    (teacher.Human as Teacher).ToStringUpdate(),
+                    $"teacher_id={i}"
+                    );
+                connector.UploadPhoto((teacher.Human as Teacher).SerializePhoto(), i, "photo", "Teachers");
+                // comboBoxStudentsGroup_SelectedIndexChanged(null, null);
+            }
+        }
     }
-    }
+}
+
+ 
 
