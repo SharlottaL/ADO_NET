@@ -10,30 +10,26 @@ using System.Windows.Forms;
 
 namespace Academy
 {
-    public partial class DeriveStudentForm : BaseHumanForm
+    public partial class DeriveTeacherForm : BaseHumanForm
     {
-        public DeriveStudentForm()
+        public DeriveTeacherForm()
         {
             InitializeComponent();
-            DataTable groups = connector.Select("*", "Groups");
-            comboBoxGroups.DataSource = groups;
-            comboBoxGroups.DisplayMember = groups.Columns[1].ToString();
-            comboBoxGroups.ValueMember = groups.Columns[0].ColumnName;
         }
-        public DeriveStudentForm(int id):this()
+
+        public DeriveTeacherForm(int id) : this()
         {
-            Human = new Student(id);
+            Human = new Teacher(id);
             Extract();
         }
         protected override void Extract()
         {
             base.Extract();
-            comboBoxGroups.SelectedIndex = (Human as Student).Group;
-            labelID.Text = (Human as Student).ID.ToString();
+            labelID.Text = (Human as Teacher).ID.ToString();
         }
         protected override void buttonOK_Click(object sender, EventArgs e)
         {
-            Human = new Student
+            Human = new Teacher
                 (
                 textBoxLastName.Text,
                 textBoxFirstName.Text,
@@ -41,8 +37,9 @@ namespace Academy
                 dateTimePickerBirthDate.Text,
                 textBoxEmail.Text,
                 textBoxPhone.Text,
-                Convert.ToInt32(comboBoxGroups.SelectedValue),
-                pictureBoxPhoto.Image
+                pictureBoxPhoto.Image,
+                dateTimePickerWorkSince.Text,
+                textBoxRate.Text
                 );
         }
     }

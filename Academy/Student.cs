@@ -8,46 +8,32 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data;
 namespace Academy
 {
     internal class Student:Human
     {
-        public int ID { get; set; }
         public int Group { get; set; }
-        public Student(int stud_id)
+        public Student() { }
+        public Student(int stud_id) :base(stud_id, "Students","stud_id")
         {
             Connector connector = new Connector();
-            DataTable student = connector.Select("*", "Students", $"stud_id={stud_id}");
-            ID = stud_id;
-            LastName = student.Rows[0][1].ToString();
-            FirstName = student.Rows[0][2].ToString();
-            MiddleName = student.Rows[0][3].ToString();
-
-            BirthDate = student.Rows[0][4].ToString();
-            Email = student.Rows[0][5].ToString();
-            Phone = student.Rows[0][6].ToString();
-            Group = Convert.ToInt32(student.Rows[0][8]);
-            try
-            {
-                Photo = connector.DownloadPhoto(stud_id, "Students", "photo");
-            }
-            catch(Exception)
-            {
-            }
+            DataTable student = connector.Select("[group]", "Students", $"stud_id={stud_id}");
+            Group = Convert.ToInt32(student.Rows[0]["group"]);
         }
-        public Student() { }
-        public Student(string last_name, string first_name, string middle_name, string birth_date, string email, string phone, int group, Image photo)
+        public Student(string last_name, string first_name, string middle_name,
+            string birth_date, string email, string phone, 
+            int group, 
+            Image photo) : base(last_name, first_name, middle_name, birth_date, email, phone, photo)
         {
 
-            LastName = last_name;
-            FirstName = first_name;
-            MiddleName = middle_name;
-            BirthDate = birth_date;
-            Email = email;
-            Phone = phone;
+            //LastName = last_name;
+            //FirstName = first_name;
+            //MiddleName = middle_name;
+            //BirthDate = birth_date;
+            //Email = email;
+            //Phone = phone;
             Group = group;
-            Photo = photo;
+           // Photo = photo;
         }
         //public byte[] SerializePhoto()
         //{

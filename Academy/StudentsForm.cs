@@ -79,11 +79,11 @@ namespace Academy
         }
         void Compress()
         {
-            Student.LastName = textBoxLastName.Text;
-            Student.FirstName = textBoxFirstName.Text;
-            Student.MiddleName = textBoxMiddleName.Text;
-            Student.Email = textBoxEmail.Text;
-            Student.Phone = textBoxPhone.Text;
+            //Student.LastName = textBoxLastName.Text;
+            //Student.FirstName = textBoxFirstName.Text;
+            //Student.MiddleName = textBoxMiddleName.Text;
+            //Student.Email = textBoxEmail.Text;
+            //Student.Phone = textBoxPhone.Text;
             Student.Group = Convert.ToInt32(comboBoxGroups.SelectedValue);
         }
 

@@ -93,6 +93,11 @@ namespace Academy
                textBoxRate.Text
                );
         }
+
+        private void TeacherForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

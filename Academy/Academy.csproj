@@ -78,6 +78,12 @@
     <Compile Include="DeriveStudentForm.Designer.cs">
       <DependentUpon>DeriveStudentForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DeriveTeacherForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeriveTeacherForm.Designer.cs">
+      <DependentUpon>DeriveTeacherForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Human.cs" />
     <Compile Include="HumanForm.cs">
       <SubType>UserControl</SubType>
@@ -123,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DeriveStudentForm.resx">
       <DependentUpon>DeriveStudentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeriveTeacherForm.resx">
+      <DependentUpon>DeriveTeacherForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HumanForm.resx">
       <DependentUpon>HumanForm.cs</DependentUpon>

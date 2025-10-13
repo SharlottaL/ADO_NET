@@ -79,7 +79,7 @@ namespace Academy
             // Выбираем первичный ключ
             DirectionsRelatedData.Tables[dsTableDirections].PrimaryKey =
                 new DataColumn[] { DirectionsRelatedData.Tables[dsTableDirections].Columns[dstDirections_col_direction_id] };
-          
+
             const string dsTableDisciplines = "Disciplines";
             const string dstDisciplines_col_discipline_id = "discipline_id";
             const string dstDisciplines_col_discipline_name = "discipline_name";
@@ -297,7 +297,7 @@ namespace Academy
                     student.Student.ToString()
                     );
                 int id = Convert.ToInt32(connector.Scalar("SELECT MAX(stud_id) FROM Students"));
-                connector.UploadPhoto(student.Student.SerializePhoto(), id, "photo","Students");
+                connector.UploadPhoto(student.Student.SerializePhoto(), id, "photo", "Students");
             }
         }
 
@@ -317,7 +317,7 @@ namespace Academy
                 connector.UploadPhoto(teacher.Teacher.SerializePhoto(), id, "photo", "Teachers");
             }
         }
-        
+
 
         private void dataGridViewStudents_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -336,7 +336,7 @@ namespace Academy
             //    comboBoxStudentsGroup_SelectedIndexChanged(null, null);
             DeriveStudentForm student = new DeriveStudentForm(i);
             DialogResult result = student.ShowDialog();
-            if(result == DialogResult.OK)
+            if (result == DialogResult.OK)
             {
                 connector.Update
                     (
@@ -344,8 +344,8 @@ namespace Academy
                    (student.Human as Student).ToStringUpdate(),
                    $"stud_id={i}"
                     );
-                   connector.UploadPhoto((student.Human as Student).SerializePhoto(), i, "photo", "Students");
-                   comboBoxStudentsGroup_SelectedIndexChanged(null, null);
+                connector.UploadPhoto((student.Human as Student).SerializePhoto(), i, "photo", "Students");
+                comboBoxStudentsGroup_SelectedIndexChanged(null, null);
             }
             //}
         }
@@ -353,21 +353,22 @@ namespace Academy
         private void dataGridViewTeachers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int i = Convert.ToInt32(dataGridViewTeachers.SelectedRows[0].Cells[0].Value);
-            TeacherForm teacher = new TeacherForm(i);
+            DeriveTeacherForm teacher = new DeriveTeacherForm(i);
             DialogResult result = teacher.ShowDialog();
             if (result == DialogResult.OK)
             {
                 connector.Update
                     (
                     "Teachers",
-                    teacher.Teacher.ToStringUpdate(),
+                    (teacher.Human as Teacher).ToStringUpdate(),
                     $"teacher_id={i}"
                     );
-                connector.UploadPhoto(teacher.Teacher.SerializePhoto(), i, "photo", "Teachers");
-               // comboBoxStudentsGroup_SelectedIndexChanged(null, null);
+                connector.UploadPhoto((teacher.Human as Teacher).SerializePhoto(), i, "photo", "Teachers");
+                // comboBoxStudentsGroup_SelectedIndexChanged(null, null);
             }
         }
     }
 }
+
  
 

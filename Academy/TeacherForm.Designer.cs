@@ -262,6 +262,7 @@
             this.Controls.Add(this.pictureBoxPhoto);
             this.Name = "TeacherForm";
             this.Text = "TeacherForm";
+            this.Load += new System.EventHandler(this.TeacherForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

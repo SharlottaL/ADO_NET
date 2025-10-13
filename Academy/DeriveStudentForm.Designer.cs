@@ -30,6 +30,8 @@
         {
             this.comboBoxGroups = new System.Windows.Forms.ComboBox();
             this.labelGroup = new System.Windows.Forms.Label();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).BeginInit();
             this.SuspendLayout();
             // 
             // labelID
@@ -58,17 +60,32 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Maroon;
             this.ClientSize = new System.Drawing.Size(644, 427);
             this.Controls.Add(this.comboBoxGroups);
             this.Controls.Add(this.labelGroup);
             this.Name = "DeriveStudentForm";
             this.Text = "DeriveStudentForm";
+            this.Controls.SetChildIndex(this.labelLastName, 0);
+            this.Controls.SetChildIndex(this.labelFirstName, 0);
+            this.Controls.SetChildIndex(this.labelMiddlName, 0);
+            this.Controls.SetChildIndex(this.labelBirthDate, 0);
+            this.Controls.SetChildIndex(this.labelEmail, 0);
+            this.Controls.SetChildIndex(this.labelPhone, 0);
+            this.Controls.SetChildIndex(this.textBoxLastName, 0);
+            this.Controls.SetChildIndex(this.textBoxFirstName, 0);
+            this.Controls.SetChildIndex(this.textBoxMiddleName, 0);
+            this.Controls.SetChildIndex(this.dateTimePickerBirthDate, 0);
+            this.Controls.SetChildIndex(this.textBoxEmail, 0);
+            this.Controls.SetChildIndex(this.textBoxPhone, 0);
+            this.Controls.SetChildIndex(this.pictureBoxPhoto, 0);
             this.Controls.SetChildIndex(this.buttonOboz, 0);
             this.Controls.SetChildIndex(this.buttonCancel, 0);
             this.Controls.SetChildIndex(this.buttonOK, 0);
             this.Controls.SetChildIndex(this.labelID, 0);
             this.Controls.SetChildIndex(this.labelGroup, 0);
             this.Controls.SetChildIndex(this.comboBoxGroups, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -78,5 +95,6 @@
 
         private System.Windows.Forms.ComboBox comboBoxGroups;
         private System.Windows.Forms.Label labelGroup;
+        private System.Windows.Forms.ColorDialog colorDialog1;
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Academy
 {
@@ -20,7 +21,9 @@ namespace Academy
             connector = new Connector();
             buttonOboz.Click += new EventHandler(buttonOboz_Click);
             buttonOK.Click += new EventHandler(buttonOK_Click);
+            
         }
+       
         protected virtual void Extract()
         {
             textBoxLastName.Text = Human.LastName;
