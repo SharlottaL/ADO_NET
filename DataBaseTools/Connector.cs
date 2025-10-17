@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using System.Configuration;
+using System.Drawing;
+
 namespace DataBaseTools
 {
-    
-     internal class Connector
-     {
+    public class Connector
+    {
         string connectionString = "";
         SqlConnection connection = null;
         public Connector()
@@ -49,14 +50,14 @@ namespace DataBaseTools
             return table;
         }
 
-       public void Insert(string table, string fields, string values)
-       {
+        public void Insert(string table, string fields, string values)
+        {
             string cmd = $"INSERT {table}({fields}) VALUES ({values})";
             SqlCommand command = new SqlCommand(cmd, connection);
             connection.Open();
             command.ExecuteNonQuery();
             connection.Close();
-       }
+        }
         public void UploadPhoto(byte[] image, int id, string field, string table)
         {
             string cmd = $"UPDATE {table} SET {field}=@image WHERE {GetPrimaryKeyName(table)}={id}";
@@ -66,17 +67,17 @@ namespace DataBaseTools
             command.ExecuteNonQuery();
             connection.Close();
         }
-        public Image DownloadPhoto(int id, string table, string field)
+        public System.Drawing.Image DownloadPhoto(int id, string table, string field)
         {
-            Image photo = null;
+            System.Drawing.Image photo = null;
             string cmd = $"SELECT {field} FROM {table} WHERE {GetPrimaryKeyName(table)}={id}";
             SqlCommand command = new SqlCommand(cmd, connection);
             connection.Open();
             SqlDataReader reader = command.ExecuteReader();
-            if(reader.Read())
+            if (reader.Read())
             {
                 MemoryStream ms = new MemoryStream(reader[0] as byte[]);
-                photo = Image.FromStream(ms);
+                photo = System.Drawing.Image.FromStream(ms);
             }
             connection.Close();
             return photo;
@@ -84,7 +85,7 @@ namespace DataBaseTools
         public void Update(string table, string field, string condition)
         {
             string cmd = $"UPDATE {table} SET {field} WHERE {condition}";
-            SqlCommand  command = new SqlCommand(cmd, connection);
+            SqlCommand command = new SqlCommand(cmd, connection);
             connection.Open();
             command.ExecuteNonQuery();
             connection.Close();
@@ -107,5 +108,5 @@ namespace DataBaseTools
                 AND		TABLE_NAME='{table}'"
                 ) as string;
         }
-     }
+    }
 }

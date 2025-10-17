@@ -32,7 +32,7 @@ namespace LINQ
             //////////////////////////////////////////////
             Console.WriteLine((from i in arr select i).Count());
             Console.WriteLine((from i in arr select i).Sum());
-            List<int> i_list = (from i in arr select i).To
+            //List<int> i_list = (from i in arr select i).To
 
         }
         [DllImport("kernel32.dll")]
