@@ -17,7 +17,7 @@ namespace LINQ
         {
             InitializeComponent();
             AllocConsole();
-
+            //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/query-keywords
             int[] arr = { 3, 5, 8, 13, 21, 34, 55 };
             IEnumerable<int> FibonacciQuery =
                 from i in arr
@@ -29,6 +29,11 @@ namespace LINQ
                 Console.Write($"{i}\t");
             }
             Console.WriteLine();
+            //////////////////////////////////////////////
+            Console.WriteLine((from i in arr select i).Count());
+            Console.WriteLine((from i in arr select i).Sum());
+            List<int> i_list = (from i in arr select i).To
+
         }
         [DllImport("kernel32.dll")]
         public static extern bool AllocConsole();

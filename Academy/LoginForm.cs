@@ -39,13 +39,10 @@ namespace Academy
             string serverName = textBoxServer.Text;
             try
             {
-                
                 string connectionString = $"Data Source={serverName};Integrated Security=True;TrustServerCertificate=True;";
-
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-
                     comboBoxDataBase.Items.Clear();
                     DataTable databasesTable = connector.Select($"name", "sys.databases", "database_id > 4");
                     comboBoxDataBase.Items.Add("Все");

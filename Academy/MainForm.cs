@@ -155,7 +155,6 @@ namespace Academy
                 {
                     connection.Open();
                     MessageBox.Show("Успешное подключение");
-
                     connection.Close();
                 }
                 catch (Exception ex)
