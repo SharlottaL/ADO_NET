@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
@@ -19,7 +20,8 @@ namespace Academy
 
     public partial class MainForm : System.Windows.Forms.Form
     {
-        string connectionString = "Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+        string connectionString;// = $"Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;{Encrypt};{TrustServerCertificate};User ID = Gigantika; Password=botanichkagigantika;";//ApplicationIntent=ReadWrite;MultiSubnetFailover=False
         SqlConnection connection;
         Connector connector;
         System.Data.DataSet DirectionsRelatedData = null;
@@ -63,66 +65,67 @@ namespace Academy
         {
             InitializeComponent();
             AllocConsole();
+            LoadToConnectionString();
             connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
             Console.WriteLine(tabControl.TabCount);
             connection = new SqlConnection(connectionString);
             connector = new Connector();
 
-            DirectionsRelatedData = new System.Data.DataSet(nameof(DirectionsRelatedData));
-            const string dsTableDirections = "Directions";
-            const string dstDirections_col_direction_id = "direction_id";
-            const string dstDirections_col_direction_name = "direction_name";
-            DirectionsRelatedData.Tables.Add(dsTableDirections);
-            //Добавить поля в таблицу
-            DirectionsRelatedData.Tables[dsTableDirections].Columns.Add(dstDirections_col_direction_id);
-            DirectionsRelatedData.Tables[dsTableDirections].Columns.Add(dstDirections_col_direction_name);
-            // Выбираем первичный ключ
-            DirectionsRelatedData.Tables[dsTableDirections].PrimaryKey =
-                new DataColumn[] { DirectionsRelatedData.Tables[dsTableDirections].Columns[dstDirections_col_direction_id] };
+            //DirectionsRelatedData = new System.Data.DataSet(nameof(DirectionsRelatedData));
+            //const string dsTableDirections = "Directions";
+            //const string dstDirections_col_direction_id = "direction_id";
+            //const string dstDirections_col_direction_name = "direction_name";
+            //DirectionsRelatedData.Tables.Add(dsTableDirections);
+            ////Добавить поля в таблицу
+            //DirectionsRelatedData.Tables[dsTableDirections].Columns.Add(dstDirections_col_direction_id);
+            //DirectionsRelatedData.Tables[dsTableDirections].Columns.Add(dstDirections_col_direction_name);
+            //// Выбираем первичный ключ
+            //DirectionsRelatedData.Tables[dsTableDirections].PrimaryKey =
+            //    new DataColumn[] { DirectionsRelatedData.Tables[dsTableDirections].Columns[dstDirections_col_direction_id] };
 
-            const string dsTableDisciplines = "Disciplines";
-            const string dstDisciplines_col_discipline_id = "discipline_id";
-            const string dstDisciplines_col_discipline_name = "discipline_name";
-            const string dstDisciplines_col_number_of_lessons = "number_of_lessons";
-            DirectionsRelatedData.Tables.Add(dsTableDisciplines);
-            //Добавить поля в таблицу
-            DirectionsRelatedData.Tables[dsTableDisciplines].Columns.Add(dstDisciplines_col_discipline_id);
-            DirectionsRelatedData.Tables[dsTableDisciplines].Columns.Add(dstDisciplines_col_discipline_name);
-            DirectionsRelatedData.Tables[dsTableDisciplines].Columns.Add(dstDisciplines_col_number_of_lessons);
-            // Выбираем первичный ключ
-            DirectionsRelatedData.Tables[dsTableDisciplines].PrimaryKey =
-                new DataColumn[] { DirectionsRelatedData.Tables[dsTableDisciplines].Columns[dstDisciplines_col_discipline_id] };
+            //const string dsTableDisciplines = "Disciplines";
+            //const string dstDisciplines_col_discipline_id = "discipline_id";
+            //const string dstDisciplines_col_discipline_name = "discipline_name";
+            //const string dstDisciplines_col_number_of_lessons = "number_of_lessons";
+            //DirectionsRelatedData.Tables.Add(dsTableDisciplines);
+            ////Добавить поля в таблицу
+            //DirectionsRelatedData.Tables[dsTableDisciplines].Columns.Add(dstDisciplines_col_discipline_id);
+            //DirectionsRelatedData.Tables[dsTableDisciplines].Columns.Add(dstDisciplines_col_discipline_name);
+            //DirectionsRelatedData.Tables[dsTableDisciplines].Columns.Add(dstDisciplines_col_number_of_lessons);
+            //// Выбираем первичный ключ
+            //DirectionsRelatedData.Tables[dsTableDisciplines].PrimaryKey =
+            //    new DataColumn[] { DirectionsRelatedData.Tables[dsTableDisciplines].Columns[dstDisciplines_col_discipline_id] };
 
-            const string dsTableDisciplinesDirectionsRelation = "DisciplinesDirectionsRelation";
-            const string dstDisciplinesDirectionsRelation_col_direction = "direction";
-            const string dstDisciplinesDirectionsRelation_col_discipline = "discipline";
-            DirectionsRelatedData.Tables.Add(dsTableDisciplinesDirectionsRelation);
-            //Добавить поля в таблицу
-            DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns.Add(dstDisciplinesDirectionsRelation_col_direction);
-            DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns.Add(dstDisciplinesDirectionsRelation_col_discipline);
-            // Выбираем первичный ключ
-            DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].PrimaryKey =
-                new DataColumn[] { DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns[dstDisciplinesDirectionsRelation_col_direction],
-                DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns[dstDisciplinesDirectionsRelation_col_discipline]};
+            //const string dsTableDisciplinesDirectionsRelation = "DisciplinesDirectionsRelation";
+            //const string dstDisciplinesDirectionsRelation_col_direction = "direction";
+            //const string dstDisciplinesDirectionsRelation_col_discipline = "discipline";
+            //DirectionsRelatedData.Tables.Add(dsTableDisciplinesDirectionsRelation);
+            ////Добавить поля в таблицу
+            //DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns.Add(dstDisciplinesDirectionsRelation_col_direction);
+            //DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns.Add(dstDisciplinesDirectionsRelation_col_discipline);
+            //// Выбираем первичный ключ
+            //DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].PrimaryKey =
+            //    new DataColumn[] { DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns[dstDisciplinesDirectionsRelation_col_direction],
+            //    DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation].Columns[dstDisciplinesDirectionsRelation_col_discipline]};
 
-            string directions_cmd = "SELECT * FROM Directions";
-            string disciplines_cmd = "SELECT * FROM Disciplines";
-            string disciplines_directions_relation_cmd = "SELECT * FROM DisciplinesDirectionsRelation";
+            //string directions_cmd = "SELECT * FROM Directions";
+            //string disciplines_cmd = "SELECT * FROM Disciplines";
+            //string disciplines_directions_relation_cmd = "SELECT * FROM DisciplinesDirectionsRelation";
 
-            SqlDataAdapter directionsAdapter = new SqlDataAdapter(directions_cmd, connection);
-            SqlDataAdapter disciplinesAdapter = new SqlDataAdapter(disciplines_cmd, connection);
-            SqlDataAdapter disciplinesDirectionsRelationAdapter = new SqlDataAdapter(disciplines_directions_relation_cmd, connection);
+            //SqlDataAdapter directionsAdapter = new SqlDataAdapter(directions_cmd, connection);
+            //SqlDataAdapter disciplinesAdapter = new SqlDataAdapter(disciplines_cmd, connection);
+            //SqlDataAdapter disciplinesDirectionsRelationAdapter = new SqlDataAdapter(disciplines_directions_relation_cmd, connection);
 
-            directionsAdapter.Fill(DirectionsRelatedData.Tables[dsTableDirections]);
-            disciplinesAdapter.Fill(DirectionsRelatedData.Tables[dsTableDisciplines]);
-            disciplinesDirectionsRelationAdapter.Fill(DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation]);
+            //directionsAdapter.Fill(DirectionsRelatedData.Tables[dsTableDirections]);
+            //disciplinesAdapter.Fill(DirectionsRelatedData.Tables[dsTableDisciplines]);
+            //disciplinesDirectionsRelationAdapter.Fill(DirectionsRelatedData.Tables[dsTableDisciplinesDirectionsRelation]);
 
-            comboBoxDirections.Items.Add("Все");
-            foreach (DataRow row in DirectionsRelatedData.Tables[dsTableDirections].Rows)
-            {
-                comboBoxDirections.Items.Add(row["direction_name"]);
-            }
-            comboBoxDirections.SelectedIndex = 0;
+            //comboBoxDirections.Items.Add("Все");
+            //foreach (DataRow row in DirectionsRelatedData.Tables[dsTableDirections].Rows)
+            //{
+            //    comboBoxDirections.Items.Add(row["direction_name"]);
+            //}
+            //comboBoxDirections.SelectedIndex = 0;
 
             d_groupDirection = LoadDataToDictionary("*", "Directions");
             d_studentsGroup = LoadDataToDictionary("*", "Groups");
@@ -140,7 +143,28 @@ namespace Academy
                     .RowsAdded
                     += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
             }
+        }
+        void LoadToConnectionString()
+        {
+            LoginForm login = new LoginForm();
+            if (login.ShowDialog() == DialogResult.OK)
+            {
+                connectionString = $"Data Source={login.server};Initial Catalog={login.dataBase};Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;User ID={login.login};Password={login.password};";
+                connection = new SqlConnection(connectionString);
+                try
+                {
+                    connection.Open();
+                    MessageBox.Show("Успешное подключение");
 
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка:{ex.Message}");
+                    Application.Exit();
+                }
+            }
+            
         }
         void LoadTab(int i)
         {
