@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using DataBaseTools;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace Academy//192.168.1.454
+namespace Academy
 {
     public partial class LoginForm : Form
     {
@@ -27,7 +27,9 @@ namespace Academy//192.168.1.454
         public LoginForm()
         {
             InitializeComponent();
+            EncryptConnectionString();
             LoadToConnectionString();
+          
         }
         void textBoxServer_Leave(object sender, EventArgs e)
         {
@@ -83,6 +85,32 @@ namespace Academy//192.168.1.454
             }
 
         }
+         void EncryptConnectionString()
+        { 
+            try
+            { 
+            Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConfigurationSection section = configuration.GetSection("connectionStrings");
+
+                if (section != null)
+                {
+                    if (!section.SectionInformation.IsProtected)
+                    { 
+                        section.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
+                        configuration.Save(ConfigurationSaveMode.Modified);
+
+                        MessageBox.Show($"connectionString зашифрована!");
+                    }
+                    else
+                        MessageBox.Show($"connectionString уже была зашифрована!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка шифрования: {ex.Message}");
+            }
+        }
+        
         bool IsConnected()
         {
                 connectionString = $"Data Source={server};Initial Catalog={dataBase};Connect Timeout=5;Encrypt=True;TrustServerCertificate=True;User ID={login};Password={password};";
