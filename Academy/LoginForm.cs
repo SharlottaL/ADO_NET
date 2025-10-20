@@ -40,10 +40,9 @@ namespace Academy
         }
         void LoadDataBase()
         {
-            string serverName = textBoxServer.Text;
             try
             {
-                string connectionString = $"Data Source={serverName};Integrated Security=True;TrustServerCertificate=True;";
+                string connectionString = $"Data Source={server};Integrated Security=True;TrustServerCertificate=True;";
                 connection = new SqlConnection(connectionString);
                 connection.Open();
                     comboBoxDataBase.Items.Clear();
