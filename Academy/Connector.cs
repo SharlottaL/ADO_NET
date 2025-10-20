@@ -8,14 +8,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataBaseTools;
 namespace DataBaseTools
 {
     
-     internal class Connector
+     internal class ConnectorOLD
      {
         string connectionString = "";
         SqlConnection connection = null;
-        public Connector()
+        public ConnectorOLD()
         {
             connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
             connection = new SqlConnection(connectionString);

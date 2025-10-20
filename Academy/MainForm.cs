@@ -14,20 +14,20 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataBaseTools;
 //using System.Configuration;
 namespace Academy
 {
 
     public partial class MainForm : System.Windows.Forms.Form
     {
-
         string connectionString;// = $"Data Source=BOTAN\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;{Encrypt};{TrustServerCertificate};User ID = Gigantika; Password=botanichkagigantika;";//ApplicationIntent=ReadWrite;MultiSubnetFailover=False
         SqlConnection connection;
         Connector connector;
         System.Data.DataSet DirectionsRelatedData = null;
         Dictionary<string, int> d_groupDirection;
         Dictionary<string, int> d_studentsGroup;
-
+        
 
         Query[] queries = new Query[]
         {
@@ -65,7 +65,7 @@ namespace Academy
         {
             InitializeComponent();
             AllocConsole();
-            LoadToConnectionString();
+           // LoadToConnectionString();
             connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
             Console.WriteLine(tabControl.TabCount);
             connection = new SqlConnection(connectionString);
@@ -144,27 +144,7 @@ namespace Academy
                     += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
             }
         }
-        void LoadToConnectionString()
-        {
-            LoginForm login = new LoginForm();
-            if (login.ShowDialog() == DialogResult.OK)
-            {
-                connectionString = $"Data Source={login.server};Initial Catalog={login.dataBase};Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;User ID={login.login};Password={login.password};";
-                connection = new SqlConnection(connectionString);
-                try
-                {
-                    connection.Open();
-                    MessageBox.Show("Успешное подключение");
-                    connection.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка:{ex.Message}");
-                    Application.Exit();
-                }
-            }
-            
-        }
+        
         void LoadTab(int i)
         {
             string tableName = tabControl.TabPages[i].Name.Remove(0, "tabPage".Length);

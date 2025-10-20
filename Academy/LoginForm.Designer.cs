@@ -50,7 +50,6 @@
             this.button.TabIndex = 1;
             this.button.Text = "Вход";
             this.button.UseVisualStyleBackColor = false;
-            //this.button.Click += new System.EventHandler(this.button_Click);
             // 
             // textBoxLogin
             // 
@@ -116,7 +115,7 @@
             this.textBoxServer.Name = "textBoxServer";
             this.textBoxServer.Size = new System.Drawing.Size(205, 26);
             this.textBoxServer.TabIndex = 8;
-            this.textBoxServer.Text = "Сервер";
+            this.textBoxServer.Text = "Server";
             this.textBoxServer.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxServer_KeyPress);
             this.textBoxServer.Leave += new System.EventHandler(this.textBoxServer_Leave);
             // 
